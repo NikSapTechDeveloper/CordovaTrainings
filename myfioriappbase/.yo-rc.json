@@ -1,0 +1,8 @@
+{
+  "generator-anubhav-basicfiori": {
+    "projectName": "myfioriappbase",
+    "newDir": true,
+    "projectNamespace": "com.nikitatrainings",
+    "projectNamespaceModule": "com/nikitatrainings"
+  }
+}
