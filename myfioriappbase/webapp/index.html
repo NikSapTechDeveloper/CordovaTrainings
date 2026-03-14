@@ -1,25 +1,26 @@
 <html>
 	<head>
-		<script src="resources/sap-ui-core.js"
+		<script src="resources/sap-ui-custom.js"
 				data-sap-ui-libs="sap.m, sap.ui.layout"
 				data-sap-ui-theme="sap_fiori_3_dark"
 				data-sap-ui-resourceroots='{
 					"com.nikitatrainings" : "./"
 				}'
+				data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
 				data-sap-ui-bindingSyntax="complex"
+				data-sap-ui-compatVersion="edge"
+                data-sap-ui-async="true"
 				data-sap-ui-language="en">
 		</script>
-		<script>
-
-			var oComponentContainer = new sap.ui.core.ComponentContainer({
-				name: "com.nikitatrainings"
-			});
-
-			oComponentContainer.placeAt("content");
-
-		</script>
 	</head>
-	<body class="sapUiBody">
-		<div id="content"></div>
-	</body>
+
+	<body class="sapUiBody sapUiSizeCompact" id="content">
+    <div
+        data-sap-ui-component
+        data-name="com.nikitatrainings"
+        data-id="container"
+        data-settings='{"id" : "com.nikitatrainings"}'
+        data-handle-validation="true"
+    ></div>
+</body>
 </html>

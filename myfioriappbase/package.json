@@ -4,6 +4,10 @@
   "description": "anubhavtrainings.com",
   "main": "index.js",
   "scripts": {
+    "move-to-mobile":"@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/index.html', './dist/Component-preload.js', './dist/i18n', './dist/model' ,'./dist/style' -Destination '../02hybridFiori/www' -Exclude './dist/resources'",
+    "build":"ui5 build --clean-dest self-contained --all --include-task=generateComponentPreload generateLibraryPreload",
+    "start":"ui5 serve --config ui5-dist.yaml",
+    "start-hybrid":"npm run build && npm run move-to-mobile && cd ../02hybridFiori && cordova run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "anubhav",
