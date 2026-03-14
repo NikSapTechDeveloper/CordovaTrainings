@@ -41,6 +41,11 @@
 					<!--<ActionListItem text="Order Now!!"></ActionListItem>-->
 					
 				</items>
+				<infoToolbar>
+				  <OverflowToolbar active="{/deviceConnected}" >
+				    <Label text="{/onlineOrOfflineStatusText}"></Label>
+				  </OverflowToolbar>
+				</infoToolbar>
 			</List>
 		</content>
 		<footer>

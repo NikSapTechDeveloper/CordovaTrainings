@@ -1,7 +1,8 @@
 sap.ui.define([
 	"./BaseController",
-	"com/nikitatrainings/util/formatter"
-], function(Controller, Formatter) {
+	"com/nikitatrainings/util/formatter",
+	"sap/m/MessageBox"
+], function (Controller, Formatter, MessageBox) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.View1", {
@@ -11,17 +12,62 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf com.nikitatrainings.view.View1
 		 */
-		onInit: function() {
+		onInit: function () {
 			//get the router object from Component.js
 			this.oRouter = this.getOwnerComponent().getRouter();
+			this.oRouter.getRoute("master").attachMatched(this._view1Rmh, this);
+			let oDefaultModel = this.getOwnerComponent().getModel();
+			oDefaultModel.setProperty("/deviceConnected", false);
+			oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline")
+			this.idleLogout();
 		},
-		onItemSelect: function(oEvent){
+		_view1Rmh: function (oEvent) {
+			this.checkConnection();
+		},
+		checkConnection: function () {
+			var networkState = navigator.connection.type;
+
+			let oDefaultModel = this.getView().getModel();
+
+			const Connection = {
+
+				UNKNOWN: 'unknown',
+				ETHERNET: 'ethernet',
+				WIFI: 'wifi',
+				CELL_2G: '2g',
+				CELL_3G: '3g',
+				CELL_4G: '4g',
+				CELL: 'cellular',
+				NONE: 'none'
+			};
+			var states = {};
+			states[Connection.UNKNOWN] = 'Unknown connection';
+			states[Connection.ETHERNET] = 'Ethernet connection';
+			states[Connection.WIFI] = 'WiFi connection';
+			states[Connection.CELL_2G] = 'Cell 2G connection';
+			states[Connection.CELL_3G] = 'Cell 3G connection';
+			states[Connection.CELL_4G] = 'Cell 4G connection';
+			states[Connection.CELL] = 'Cell generic connection';
+			states[Connection.NONE] = 'No network connection';
+
+			// alert('Connection type: ' + states[networkState]);
+			if (states[networkState] === 'No network connection') {
+				oDefaultModel.setProperty("/deviceConnected", false);
+				oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
+			} else if(states[networkState] !== undefined){
+				oDefaultModel.setProperty("/deviceConnected", true);
+				oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+			}else{
+
+			}
+		},
+		onItemSelect: function (oEvent) {
 			var oSelectedItem = oEvent.getParameter("listItem");
 			var sTitle = oSelectedItem.getTitle();
 			this.onNext(sTitle);
 		},
 		oRouter: null,
-		onSelectChange: function(oEvent){
+		onSelectChange: function (oEvent) {
 			var oList = oEvent.getSource();
 			// var aItems = oList.getSelectedItems();
 			// for (var i=0; i<aItems.length; i++) {
@@ -41,10 +87,10 @@ sap.ui.define([
 			// oView2.bindElement(sPath);
 
 		},
-		onSearch: function(oEvent){
+		onSearch: function (oEvent) {
 			//Step 1: get the value entered by user on screen
 			var sSearchValue = oEvent.getParameter("query");
-			if(!sSearchValue){
+			if (!sSearchValue) {
 				sSearchValue = oEvent.getParameter("newValue");
 			}
 			//Step 2: prepare a filter object - 2 operands and 1 operator
@@ -60,9 +106,9 @@ sap.ui.define([
 			//step 4: Inject the filter into the binding of list
 			oList.getBinding("items").filter(oFilterFinal);
 		},
-		onNext: function(sIndex){
+		onNext: function (sIndex) {
 			// WHO IS RESPONSIBLE FOR NAVIGATION
-			this.oRouter.navTo("detail",{
+			this.oRouter.navTo("detail", {
 				navya: sIndex
 			});
 			//Step 1: Get The Container object for this view
@@ -78,6 +124,25 @@ sap.ui.define([
 
 			// //Step 2: use that to navigate to second view
 			// oParent.toDetail("idView2");
+		},
+		idleLogout: function () {
+			let time;
+			let that = this;
+			window.onload = resetTimer;
+			window.onmousemove = resetTimer;
+			window.ontouchstart = resetTimer;
+			window.onclick = resetTimer;
+			window.onkeydown = resetTimer;
+			window.addEventListener("scroll", resetTimer, true);
+
+			function autoLogout() {
+				MessageBox.alert("Page Expired!, Please Login Again.");
+				window.top.location.href = './index.html';
+			}
+			function resetTimer() {
+				clearTimeout(time);
+				time = setTimeout(autoLogout, 60000);
+			}
 		}
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
