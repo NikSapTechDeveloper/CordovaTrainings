@@ -10,7 +10,9 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDesc}}",
 		"tags": {
-			"keywords": ["{{appTag1}}"]
+			"keywords": [
+				"{{appTag1}}"
+			]
 		},
 		"ach": "FIN-ACC-AP"
 	},
@@ -22,7 +24,10 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_bluecrystal", "sap_belize"],
+		"supportedThemes": [
+			"sap_bluecrystal",
+			"sap_belize"
+		],
 		"icons": {
 			"icon": "sap-icon://accidental-leave"
 		}
@@ -41,7 +46,7 @@
 			}
 		},
 		"rootView": {
-			"viewName": "com.nikitatrainings.view.App",
+			"viewName": "com.nikitatrainings.view.Login",
 			"type": "XML"
 		},
 		"routing": {
@@ -49,35 +54,63 @@
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
 				"viewPath": "com.nikitatrainings.view",
-				"controlId": "idAppCon"
+				"controlId": "idMainApp"
 			},
-			"routes": [{
-				"pattern": "",
-				"name": "master",
-				"target": ["donald"]
-			}, {
-				"name": "detail",
-				"pattern": "fruitDetails/{navya}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["donald", "modi"]
-			}],
+			"routes": [
+				{
+					"pattern": "split",
+					"name": "App",
+					"target": ["App"],
+					"subroutes": [
+						{
+							"pattern": "master",
+							"name": "master",
+							"target": [
+								"donald","trumph"
+							]
+						},
+						{
+							"name": "detail",
+							"pattern": "fruitDetails/{navya}",
+							"titleTarget": "",
+							"greedy": false,
+							"target": [
+								"donald",
+								"modi"
+							]
+						}
+					]
+				}
+			],
 			"targets": {
+				"App":{
+					"viewName": "App",
+					"controlId":"idMainApp",
+					"id": "idAppView",
+					"controlAggregation": "pages",
+					"clearAggregation":true,
+					"viewLevel":"1"
+				},
 				"donald": {
 					"viewName": "View1",
 					"id": "idView1",
-					"controlAggregation": "masterPages"
+					"controlId":"__xmlview1--idAppCon",
+					"controlAggregation": "masterPages",
+					"clearAggregation":true
 				},
 				"trumph": {
 					"viewName": "Empty",
 					"id": "idEmpty",
+					"controlId":"__xmlview1--idAppCon",
 					"controlAggregation": "detailPages",
-					"viewLevel": 1
+					"viewLevel": 1,
+					"clearAggregation":true
 				},
 				"modi": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearAggregation": true,
+					"controlId":"__xmlview1--idAppCon",
 					"viewName": "View2",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2
@@ -89,10 +122,12 @@
 			"cozy": true
 		},
 		"resources": {
-			"css": [{
-				"uri": "style/mystyle.css",
-				"id": ""
-			}]
+			"css": [
+				{
+					"uri": "style/mystyle.css",
+					"id": ""
+				}
+			]
 		},
 		"models": {
 			"": {
