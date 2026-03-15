@@ -130,7 +130,7 @@
 			]
 		},
 		"models": {
-			"": {
+			"local": {
 				"type": "sap.ui.model.json.JSONModel",
 				"settings": {},
 				"preload": true,

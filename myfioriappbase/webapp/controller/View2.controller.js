@@ -14,6 +14,8 @@ sap.ui.define([
 		 */
 		onInit: function() {
 			this.oRouter = this.getOwnerComponent().getRouter();
+			let olocalModel = this.getOwnerComponent().getModel("local")
+			this.getView().setModel(olocalModel,"local");
 			//this.oRouter.attachRoutePatternMatched(this.herculis, this);
 			this.oRouter.getRoute("detail").attachMatched(this.herculis, this);
 		},
@@ -21,7 +23,7 @@ sap.ui.define([
 			//debugger;	
 			
 			var navya = oEvent.getParameter("arguments").navya;
-			var sPath = '/fruits/' + navya;
+			var sPath = '/' + navya;
 			this.getView().bindElement(sPath);
 		},
 		

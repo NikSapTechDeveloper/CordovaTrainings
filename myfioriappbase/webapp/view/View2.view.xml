@@ -1,22 +1,22 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.nikitatrainings.controller.View2"
 	xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="View 2"  showNavButton="{=${/isPhone} === true? true:false}" navButtonPress="onNavBack">
+	<Page title="View 2"  showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
 		<content>
 			<!--<Button text="Back" press="onBack"></Button>-->
-			<ObjectHeader title="{name}" intro="{healthBenefit}" 
-			              number="{price}" numberUnit="{currency}" icon="{imageURL}"></ObjectHeader>
+			<ObjectHeader title="{Name}" intro="{Category}" 
+			              number="{Price}" numberUnit="{CurrencyCode}" icon="sap-icon://product"></ObjectHeader>
 			<IconTabBar>
 				<items>
 					<IconTabFilter text="Additional Info" key="" icon="sap-icon://home">
 						<content>
 							<f:SimpleForm>
 								<f:content>
-									<Label text="Color"></Label>
-									<Text text="{color}"></Text>
-									<Label text="Type"></Label>
-									<Text text="{type}"></Text>
-									<Label text="Status"></Label>
-									<Text text="{status}"></Text>
+									<Label text="Supplier Id"></Label>
+									<Text text="{SupplierId}"></Text>
+									<Label text="Type Code"></Label>
+									<Text text="{TypeCode}"></Text>
+									<Label text="Unit"></Label>
+									<Text text="{MeasureUnit}"></Text>
 								</f:content>
 							</f:SimpleForm>
 						</content>
@@ -27,14 +27,14 @@
 						</content>
 					</IconTabFilter>
 					<IconTabFilter text="Cities" key="" icon="sap-icon://arrow-down">
-						<Select items="{/cities}">
-							<core:Item key="{name}" text="{name}"></core:Item>
+						<Select items="{local>/cities}">
+							<core:Item key="{local>name}" text="{local>name}"></core:Item>
 						</Select>
-						<ComboBox items="{/cities}">
+						<ComboBox items="{local>/cities}">
 							<core:Item key="{name}" text="{name}"></core:Item>
 						</ComboBox>
-						<MultiComboBox items="{/cities}">
-							<core:Item key="{name}" text="{name}"></core:Item>
+						<MultiComboBox items="{local>/cities}">
+							<core:Item key="{local>name}" text="{local>name}"></core:Item>
 						</MultiComboBox>
 					</IconTabFilter>
 				</items>

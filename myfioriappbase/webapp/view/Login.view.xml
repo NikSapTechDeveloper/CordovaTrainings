@@ -22,7 +22,7 @@
 											<Label text=""/>
 										</f:label>
 										<f:fields>
-											<Input placeholder="Enter User Id" type="Text"/>
+											<Input id="idUser" placeholder="Enter User Id" type="Text"/>
 										</f:fields>
 									</f:FormElement>
 
@@ -31,7 +31,7 @@
 											<Label text=""/>
 										</f:label>
 										<f:fields>
-											<Input placeholder="Enter Password" type="Password"/>
+											<Input id="idPassword" placeholder="Enter Password" type="Password"/>
 										</f:fields>
 									</f:FormElement>
 

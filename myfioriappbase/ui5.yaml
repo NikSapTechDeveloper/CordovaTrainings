@@ -10,3 +10,12 @@ framework:
     - name: sap.ui.core
     - name: sap.ui.layout
     - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+  - name: fiori-tools-proxy
+    afterMiddleware: compression
+    configuration:
+      ignoreCertError: true
+      backend:
+      - path: /sap
+        url: http://s4hana10.saraswatitechnologies.in:8010

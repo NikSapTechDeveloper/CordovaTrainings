@@ -1,6 +1,8 @@
 sap.ui.define([
-	"./BaseController"
-], function(Controller) {
+	"./BaseController",
+	"sap/ui/model/odata/v2/ODataModel",
+	"sap/m/MessageBox"
+], function(Controller, ODataModel, MessageBox) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.Login", {
@@ -16,7 +18,29 @@ sap.ui.define([
 			},
 			
 			onLogin: function(){
-              this.oRouter.navTo("master");
+			  let that = this;
+			   let sUser = this.getView().byId("idUser").getValue();
+			  let sPassword = this.getView().byId("idPassword").getValue();
+			  let oDataModel = 	new ODataModel("http://s4hana10.saraswatitechnologies.in:8010/sap/opu/odata/sap/ZRS_JAN2026_SRV/",{ user: sUser,
+            password: sPassword, useBatch:false});
+			 
+
+			  if(!oDataModel.oMetadata.sUser || !oDataModel.oMetadata.sPassword){
+				MessageBox.error("Credentials cannot be blank.");
+				return;
+			  }
+              
+			  oDataModel.attachMetadataLoaded(null, ()=>{
+                 this.getOwnerComponent().setModel(oDataModel);
+
+
+				 this.oRouter.navTo("master");
+			  },null)
+			  
+			  oDataModel.refreshMetadata();
+
+
+              
 			 }, 
 
 		/**

@@ -4,16 +4,16 @@
   "description": "anubhavtrainings.com",
   "main": "index.js",
   "scripts": {
-    "move-to-mobile":"@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/index.html', './dist/Component-preload.js', './dist/i18n', './dist/model' ,'./dist/style' -Destination '../02hybridFiori/www' -Exclude './dist/resources'",
-    "move-custom-js":"@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/resources/sap-ui-custom.js' -Destination '../02hybridFiori/www/resources'",
-    "build":"ui5 build --clean-dest self-contained --all --include-task=generateComponentPreload generateLibraryPreload",
-    "start":"ui5 serve --config ui5-dist.yaml",
-    "start-hybrid":"npm run build && npm run move-to-mobile && npm run move-custom-js && cd ../02hybridFiori && cordova run",
+    "move-to-mobile": "@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/index.html', './dist/Component-preload.js', './dist/i18n', './dist/model' ,'./dist/style' -Destination '../02hybridFiori/www' -Exclude './dist/resources'",
+    "move-custom-js": "@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/resources/sap-ui-custom.js' -Destination '../02hybridFiori/www/resources'",
+    "build": "ui5 build --clean-dest self-contained --all --include-task=generateComponentPreload generateLibraryPreload",
+    "start": "ui5 serve --config ui5-dist.yaml",
+    "start-hybrid": "npm run build && npm run move-to-mobile && npm run move-custom-js && cd ../02hybridFiori && cordova run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "anubhav",
   "license": "ISC",
   "dependencies": {
-
+    "@sap/ux-ui5-tooling": "^1.20.4"
   }
 }

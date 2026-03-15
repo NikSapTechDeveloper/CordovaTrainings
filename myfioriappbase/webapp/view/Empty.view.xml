@@ -2,7 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<App>
 		<pages>
-			<Page title="I am an Empty View" showNavButton="{=${/isPhone} === true? true:false}" navButtonPress="onNavBack">
+			<Page title="I am an Empty View" showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
 				<content>
 					<Text text="Please select a fruit on left"></Text>
 				</content>

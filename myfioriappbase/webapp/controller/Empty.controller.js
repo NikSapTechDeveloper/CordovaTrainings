@@ -16,12 +16,17 @@ sap.ui.define([
 
 		},
 		_masterRmh: function (oEvent) {
-			let oDefaultModel = this.getView().getModel();
-			if (sap.ui.Device.system.phone) {
-				oDefaultModel.setProperty('/isPhone', true);
+			debugger
+			let olocalModel = this.getOwnerComponent().getModel("local")
+			this.getView().setModel(olocalModel,"local");
+			// let olocalModel = this.getView().getModel("local");
+			 if (sap.ui.Device.system.phone) {
+				olocalModel.setProperty('/isPhone', true);
 			} else {
-				oDefaultModel.setProperty('/isPhone', false);
+				olocalModel.setProperty('/isPhone', false);
 			}
+
+			
 		},
 
 		/**

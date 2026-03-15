@@ -6,7 +6,15 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <preference name="AndroidInsecureFileModeEnabled" value="true"></preference>
     <icon src="./www/img/logo.png" />
+        <!-- Allow network access -->
+    <access origin="*" />
+
+    <!-- Allow navigation -->
+    <allow-navigation href="*" />
+
+
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 </widget>

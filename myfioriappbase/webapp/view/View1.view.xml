@@ -4,17 +4,14 @@
 		<content>
 			<!--<Button text="Go To Next" press="onNext"></Button>-->
 			<SearchField id="idSearch" search="onSearch" liveChange="onSearch"></SearchField>
-			<List items="{ path: '/fruits',
-						   sorter: {path: 'name'}
+			<List items="{ path: '/ProductSet'
 			}" mode="SingleSelectMaster" itemPress="onItemSelect" id="idList"
 				  selectionChange="onSelectChange">
 				<items>
-					<ObjectListItem intro="{type}" title="{name}" icon="{imageURL}"
-								    number="{price}" numberUnit="{currency}">
+					<ObjectListItem intro="{Category}" title="{Name}" icon="sap-icon://product"
+								    number="{Price}" numberUnit="{CurrencyCode}">
 						<firstStatus>
-							<ObjectStatus text="{status}" state="{
-								path: 'status', formatter: '.formatter.getStatus'
-							}"></ObjectStatus>
+							<ObjectStatus text="{TypeCode}" state="Success"></ObjectStatus>
 						</firstStatus>
 					</ObjectListItem>
 					<!--<DisplayListItem label="Apple" value="Best antibiotic on this planet"></DisplayListItem>-->
