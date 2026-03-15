@@ -647,5 +647,9 @@
 			"type": "Tier1",
 			"otherName": "Madras"
 		}
-	]
+	],
+	"PhotoData":{
+		"Picture" : "",
+        "Captured" : false
+    }
 }

@@ -10,6 +10,19 @@ sap.ui.define([],function(){
 					return 'Error';
 				default:
 			}
+		},
+		getBase64ToImage: function(base64){
+			let imgStr = '';
+			
+			if(base64){
+                if (base64.startsWith('data:image')) {
+              imgStr = base64; // It's already formatted
+                } else {
+              imgStr = "data:image/jpeg;base64," + base64; // Manual prepend
+                }
+				
+			}
+			return imgStr;
 		}
 	};
 });

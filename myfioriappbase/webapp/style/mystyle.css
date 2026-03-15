@@ -1,0 +1,6 @@
+.cameraIconBorder {
+  border: 2px solid red;
+}
+.cameraButton > .sapMBtnInner{
+  border: 2px solid violet;
+}

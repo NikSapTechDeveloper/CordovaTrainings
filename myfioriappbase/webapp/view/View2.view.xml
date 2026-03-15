@@ -37,6 +37,35 @@
 							<core:Item key="{local>name}" text="{local>name}"></core:Item>
 						</MultiComboBox>
 					</IconTabFilter>
+					<IconTabFilter text="Capture Photo" icon="sap-icon://action-settings">
+					  <VBox alignContent="Center" alignItems="Center" width="40%">
+					    <Label text="Capture Photo" class="labelPadding" design="Bold" required="true"></Label>
+						<core:Icon class="cameraIconBorder sapUiTinyMargin" size="2rem" height="6rem" 
+						   backgroundColor="orange" width="8rem" src="sap-icon://background" 
+						   visible="{= ${local>/PhotoData/Picture} ? false : true }"
+						   press="capturePhoto">
+						   <core:customData>
+						     <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
+						   </core:customData>
+						   </core:Icon>
+						   <Image press="viewImageDialog" class="sapUiTinyMarginTopBottom" 
+						      src="{path:'local>/PhotoData/Picture',formatter:'.formatter.getBase64ToImage'}"
+							  height="6rem" visible="{= ${local>/PhotoData/Picture} ? true : false }">
+                               <customData>
+							     <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
+							   </customData>
+							</Image>
+
+							<HBox alignContent="Center" alignItems="Center">
+							  <Button icon="sap-icon://camera" class="mediumButton cameraButton" tooltip="Click Here To Capture Image"
+							  press="capturePhoto">
+							   <customData>
+							   <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
+							   </customData>
+							  </Button>
+							</HBox>
+					  </VBox>
+					</IconTabFilter>
 				</items>
 			</IconTabBar>
 		</content>

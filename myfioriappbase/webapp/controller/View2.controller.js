@@ -1,12 +1,14 @@
 sap.ui.define([
 	"./BaseController",
 	"sap/m/MessageBox",
-	"sap/m/MessageToast"
-], function(Controller, MessageBox, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/ui/core/Fragment",
+	"com/nikitatrainings/util/formatter"
+], function(Controller, MessageBox, MessageToast,Fragment, formatter) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.View2", {
-
+         formatter:formatter,
 		/**
 		 * Called when a controller is instantiated and its View controls (if available) are already created.
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
@@ -55,6 +57,49 @@ sap.ui.define([
 					}
 				}
 			});
+		},
+		capturePhoto: function(){
+			let that = this;
+			navigator.camera.getPicture(function(base64Stream){
+
+				let imgStr = String(base64Stream);
+				let oPhotoData = {
+					"Picture": imgStr,
+					"Captured": true
+				}
+				that.getOwnerComponent().getModel("local").setProperty("/PhotoData",oPhotoData)
+			}, function(oError){
+
+			}, {
+				quality: 60,
+				correctOrientation: true,
+				sourceType : Camera.PictureSourceType.CAMERA,
+				mediaType : Camera.MediaType.PICTURE,
+				saveToPhotoAlbum: true,
+				destinationType : Camera.DestinationType.DATA_URL,
+			});
+		},
+		oImageDialog: null,
+		viewImageDialog: function(){
+            let that = this;
+			if(!this.oImageDialog){
+				Fragment.load({
+					fragmentName: "com.nikitatrainings.fragments.imagePopup",
+					type: "XML",
+					controller:this
+				}).then(function(oFragment){
+                   that.oImageDialog = oFragment;
+				   that.getView().addDependent(that.oImageDialog);
+				   that.oImageDialog.open();
+				})
+
+			}else{
+				this.oImageDialog.open();
+			}
+			
+		},
+		onCloseImageDialog:function(){
+			this.oImageDialog.close();
 		}
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
