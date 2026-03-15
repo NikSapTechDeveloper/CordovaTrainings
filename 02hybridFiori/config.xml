@@ -17,4 +17,39 @@
 
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+
+    <platform name="android">
+
+    <!-- these all are got depricated -->
+    <!-- <splash src="res/screen/android/splash-screen.jpg" density="land-hdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="land-ldpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="land-mdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="land-xhdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="land-xxhdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="land-xxxhdpi" />
+
+    <splash src="res/screen/android/splash-screen.jpg" density="port-hdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="port-ldpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="port-mdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="port-xhdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="port-xxhdpi" />
+    <splash src="res/screen/android/splash-screen.jpg" density="port-xxxhdpi" />  -->
+
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splash-screen.png" />
+     <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" /> 
+     <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#ffffff" />
+</platform>
+
+
+<preference name="AutoHideSplashScreen" value="true" />
+<preference name="SplashScreenDelay" value="5000" />
+<preference name="FadeSplashScreen" value="true"/>
+<preference name="FadeSplashScreenDuration" value="750"/>
+<preference name="ShowSplashScreenSpinner" value="true"/>
+<!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
+<platform name="windows">
+    <splash src="res/screen/android/splash-screen.jpg" target="SplashScreen"/>
+    <splash src="res/screen/android/splash-screen.jpg" target="SplashScreenPhone"/>
+</platform>
+
 </widget>
