@@ -1,5 +1,5 @@
 sap.ui.define([
-	"./BaseController",
+	"com/nikitatrainings/controller/BaseController",
 	"com/nikitatrainings/util/formatter",
 	"sap/m/MessageBox"
 ], function (Controller, Formatter, MessageBox) {
@@ -17,8 +17,8 @@ sap.ui.define([
 			this.oRouter = this.getOwnerComponent().getRouter();
 			this.oRouter.getRoute("master").attachMatched(this._view1Rmh, this);
 			let oDefaultModel = this.getOwnerComponent().getModel();
-			oDefaultModel.setProperty("/deviceConnected", false);
-			oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline")
+			// oDefaultModel.setProperty("/deviceConnected", false);
+			// oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline")
 			this.idleLogout();
 		},
 		_view1Rmh: function (oEvent) {
@@ -28,6 +28,7 @@ sap.ui.define([
 			var networkState = navigator.connection.type;
 
 			let oDefaultModel = this.getView().getModel();
+			let oLocalModel = this.getOwnerComponent().getModel("local")
 
 			const Connection = {
 
@@ -52,11 +53,11 @@ sap.ui.define([
 
 			// alert('Connection type: ' + states[networkState]);
 			if (states[networkState] === 'No network connection') {
-				oDefaultModel.setProperty("/deviceConnected", false);
-				oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
+				oLocalModel.setProperty("/deviceConnected", false);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
 			} else if(states[networkState] !== undefined){
-				oDefaultModel.setProperty("/deviceConnected", true);
-				oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+				oLocalModel.setProperty("/deviceConnected", true);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 			}else{
 
 			}

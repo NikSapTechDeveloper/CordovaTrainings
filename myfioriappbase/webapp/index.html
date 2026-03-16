@@ -6,11 +6,28 @@
 				data-sap-ui-resourceroots='{
 					"com.nikitatrainings" : "./"
 				}'
-				data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+
 				data-sap-ui-bindingSyntax="complex"
 				data-sap-ui-compatVersion="edge"
                 data-sap-ui-async="true"
 				data-sap-ui-language="en">
+		</script>
+		<script>
+            let sqliteDB;
+			window.onload = function(){
+				sap.ui.require(["com/nikitatrainings/offline/offline"],
+					function(offline){
+
+						if(window.cordova){
+							offline.initialize();
+						}else{
+							offline.onStartComponent();
+						}
+
+					}
+				)
+			}
+
 		</script>
 	</head>
 

@@ -1,8 +1,9 @@
 sap.ui.define([
-	"./BaseController",
+	"com/nikitatrainings/controller/BaseController",
 	"sap/ui/model/odata/v2/ODataModel",
-	"sap/m/MessageBox"
-], function(Controller, ODataModel, MessageBox) {
+	"sap/m/MessageBox",
+	"com/nikitatrainings/offline/dbapi"
+], function (Controller, ODataModel, MessageBox, dbapi) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.Login", {
@@ -12,36 +13,65 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf com.nikitatrainings.view.App
 		 */
-			onInit: function() {
-		        this.oRouter = this.getOwnerComponent().getRouter();
-				
-			},
-			
-			onLogin: function(){
-			  let that = this;
-			   let sUser = this.getView().byId("idUser").getValue();
-			  let sPassword = this.getView().byId("idPassword").getValue();
-			  let oDataModel = 	new ODataModel("http://s4hana10.saraswatitechnologies.in:8010/sap/opu/odata/sap/ZRS_JAN2026_SRV/",{ user: sUser,
-            password: sPassword, useBatch:false});
-			 
+		onInit: function () {
+			this.oRouter = this.getOwnerComponent().getRouter();
 
-			  if(!oDataModel.oMetadata.sUser || !oDataModel.oMetadata.sPassword){
+		},
+
+		onLogin: function () {
+			let that = this;
+			let sUser = this.getView().byId("idUser").getValue();
+			let sPassword = this.getView().byId("idPassword").getValue();
+			let oDataModel = new ODataModel("http://s4hana10.saraswatitechnologies.in:8010/sap/opu/odata/sap/ZRS_JAN2026_SRV/", {
+				user: sUser,
+				password: sPassword, useBatch: false
+			});
+
+
+			if (!oDataModel.oMetadata.sUser || !oDataModel.oMetadata.sPassword) {
 				MessageBox.error("Credentials cannot be blank.");
 				return;
-			  }
-              
-			  oDataModel.attachMetadataLoaded(null, ()=>{
-                 this.getOwnerComponent().setModel(oDataModel);
+			}
+
+			if (navigator.connection.type !== 'none') {
+				oDataModel.attachMetadataLoaded(null, () => {
+					that.getOwnerComponent().setModel(oDataModel);
+					that.oRouter.navTo("master");
+					if (that.checkOffline(that)) {
+						dbapi.select(oDataModel.oMetadata.sUser).then(function(data) {
+							if (data.count > 0) {
+
+							} else {
+								dbapi.insert(oDataModel.oMetadata.sUser, btoa(oDataModel.oMetadata.sPassword))
+							}
+						})
+
+					}
 
 
-				 this.oRouter.navTo("master");
-			  },null)
-			  
-			  oDataModel.refreshMetadata();
+				}, null)
 
 
-              
-			 }, 
+
+			} else {
+				dbapi.select(oDataModel.oMetadata.sUser).then(function(data){
+                   if (data.count > 0) {
+					if (oDataModel.oMetadata.sUser === data.data.USERID &&
+						btoa(oDataModel.oMetadata.sPassword) === data.data.PASSWORD) {
+						that.oRouter.navTo("master");
+					} else {
+						MessageBox.error("Credentials do not match in offline mode.");
+					}
+				} else {
+					MessageBox.error("You are offline and this user never stored in offline db");
+				}
+				})
+				
+			}
+
+			oDataModel.refreshMetadata();
+
+		},
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

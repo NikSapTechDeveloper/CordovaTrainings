@@ -39,8 +39,8 @@
 					
 				</items>
 				<infoToolbar>
-				  <OverflowToolbar active="{/deviceConnected}" >
-				    <Label text="{/onlineOrOfflineStatusText}"></Label>
+				  <OverflowToolbar active="{local>/deviceConnected}" >
+				    <Label text="{local>/onlineOrOfflineStatusText}"></Label>
 				  </OverflowToolbar>
 				</infoToolbar>
 			</List>

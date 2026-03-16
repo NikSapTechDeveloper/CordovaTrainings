@@ -651,5 +651,6 @@
 	"PhotoData":{
 		"Picture" : "",
         "Captured" : false
-    }
+    },
+	"offlineApp":true
 }
