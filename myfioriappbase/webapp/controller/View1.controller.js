@@ -1,8 +1,9 @@
 sap.ui.define([
 	"com/nikitatrainings/controller/BaseController",
 	"com/nikitatrainings/util/formatter",
-	"sap/m/MessageBox"
-], function (Controller, Formatter, MessageBox) {
+	"sap/m/MessageBox",
+	"com/nikitatrainings/offline/reusedbapi"
+], function (Controller, Formatter, MessageBox, reusedbapi) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.View1", {
@@ -55,9 +56,30 @@ sap.ui.define([
 			if (states[networkState] === 'No network connection') {
 				oLocalModel.setProperty("/deviceConnected", false);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
+                 
+				if (this.checkOffline(this)) {
+                   var that = this;
+                   reusedbapi.read("OFFLINE_STORE_NEW", {
+					OPERATION: "GET",
+					ENTITYSET: "ProductSet"
+				   }).then(function(localdata){
+                     that.getOwnerComponent().getModel("local").setProperty("/ProductSet", JSON.parse(localdata[0].DATA));
+				   })
+				}
 			} else if(states[networkState] !== undefined){
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+
+				var that = this;
+				this.getOwnerComponent().getModel().read("/ProductSet",{
+					success:function(data){
+						that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
+						if (that.checkOffline(that)) {
+                          that.fillOfflineDb("ProductSet", data.results, "GET");
+						}
+						
+					}
+				})
 			}else{
 
 			}

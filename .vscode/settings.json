@@ -6,6 +6,12 @@
             "driver": "SQLite",
             "name": "spiderman",
             "database": "${workspaceFolder:CordovaTrainings}/basicSqlite/nikita.db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "spiderman1",
+            "database": "${workspaceFolder:CordovaTrainings}/basicSqlite/anubhav.db"
         }
     ]
 }

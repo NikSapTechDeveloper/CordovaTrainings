@@ -11,11 +11,12 @@ sap.ui.define([
 
             onDeviceReady: function () {
                 this.onCreateLocalDB();
+                 this.onStartComponent();
             },
 
             onCreateLocalDB: function () {
                 sqliteDB = window.sqlitePlugin.openDatabase({
-                    name: "nikita.db",
+                    name: "anubhav.db",
                     location: "default",
                     androidDatabaseProvider: "system"
                 });
@@ -29,7 +30,15 @@ sap.ui.define([
                     console.log('Transaction ERROR: ' + error.message);
                 }, function () {
                     console.log('login table database OK');
-                     that.onStartComponent();
+                    
+                });
+                sqliteDB.transaction(function (tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS OFFLINE_STORE_NEW (OPERATION varchar, ENTITYSET varchar, DATA varchar, TIMESTAMP NUMERIC, SYNCTIME NUMERIC, primary key(OPERATION, ENTITYSET))');
+                }, function (error) {
+                    console.log('Transaction ERROR: ' + error.message);
+                }, function () {
+                    console.log('transaction table was created');
+                    
                 });
                
             },
