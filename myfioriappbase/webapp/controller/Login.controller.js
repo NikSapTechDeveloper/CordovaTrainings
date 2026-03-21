@@ -22,9 +22,9 @@ sap.ui.define([
 			let that = this;
 			let sUser = this.getView().byId("idUser").getValue();
 			let sPassword = this.getView().byId("idPassword").getValue();
-			let oDataModel = new ODataModel("http://s4hana10.saraswatitechnologies.in:8010/sap/opu/odata/sap/ZRS_JAN2026_SRV/", {
+			let oDataModel = new ODataModel("/sap/opu/odata/sap/ZNIKITA_MOCK_PROJECT_SRV/", {
 				user: sUser,
-				password: sPassword, useBatch: false
+				password: sPassword
 			});
 
 

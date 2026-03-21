@@ -6,12 +6,12 @@
 			<SearchField id="idSearch" search="onSearch" liveChange="onSearch"></SearchField>
 			<List items="{ path: 'local>/ProductSet'
 			}" mode="SingleSelectMaster" itemPress="onItemSelect" id="idList"
-				  selectionChange="onSelectChange">
+				  selectionChange="onSelectChange" growing="true">
 				<items>
-					<ObjectListItem intro="{local>Category}" title="{local>Name}" icon="sap-icon://product"
-								    number="{local>Price}" numberUnit="{local>CurrencyCode}">
+					<ObjectListItem intro="{local>CATEGORY}" title="{local>NAME}" icon="sap-icon://product"
+								    number="{local>PRICE}" numberUnit="{local>CURRENCY_CODE}">
 						<firstStatus>
-							<ObjectStatus text="{local>TypeCode}" state="Success"></ObjectStatus>
+							<ObjectStatus text="{local>TYPE_CODE}" state="Success"></ObjectStatus>
 						</firstStatus>
 					</ObjectListItem>
 					<!--<DisplayListItem label="Apple" value="Best antibiotic on this planet"></DisplayListItem>-->
@@ -46,7 +46,12 @@
 			</List>
 		</content>
 		<footer>
-			<Toolbar></Toolbar>
+
+     <Toolbar >
+      <ToolbarSpacer />
+      <Button icon="sap-icon://add" press="onAddPress" tooltip="Add new product"></Button>
+     </Toolbar>
+   
 		</footer>
 		<headerContent>
 			<Button icon="sap-icon://action" press="onNext"></Button>

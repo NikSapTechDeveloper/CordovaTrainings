@@ -78,7 +78,12 @@
 								"donald",
 								"modi"
 							]
-						}
+						},
+						{
+                    "pattern": "AddNewProduct",
+                    "name": "add",
+                    "target":["donald","AddNewProduct"]
+                }
 					]
 				}
 			],
@@ -112,6 +117,15 @@
 					"clearAggregation": true,
 					"controlId":"__xmlview1--idAppCon",
 					"viewName": "View2",
+					"controlAggregation": "detailPages",
+					"viewLevel": 2
+				},
+				"AddNewProduct":{
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"controlId":"__xmlview1--idAppCon",
+					"viewName": "Add",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2
 				}

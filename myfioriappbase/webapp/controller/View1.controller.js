@@ -81,6 +81,19 @@ sap.ui.define([
 					}
 				})
 			}else{
+				oLocalModel.setProperty("/deviceConnected", true);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+
+				var that = this;
+				this.getOwnerComponent().getModel().read("/ProductSet",{
+					success:function(data){
+						that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
+						if (that.checkOffline(that)) {
+                          that.fillOfflineDb("ProductSet", data.results, "GET");
+						}
+						
+					}
+				})
 
 			}
 		},
@@ -166,7 +179,10 @@ sap.ui.define([
 				clearTimeout(time);
 				time = setTimeout(autoLogout, 60000);
 			}
-		}
+		},
+		 onAddPress:function(){
+                this.oRouter.navTo("add");
+            }
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).

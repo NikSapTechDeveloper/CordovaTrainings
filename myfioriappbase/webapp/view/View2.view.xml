@@ -3,8 +3,8 @@
 	<Page title="View 2"  showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
 		<content>
 			<!--<Button text="Back" press="onBack"></Button>-->
-			<ObjectHeader title="{local>Name}" intro="{local>Category}" 
-			              number="{local>Price}" numberUnit="{local>CurrencyCode}" icon="sap-icon://product"></ObjectHeader>
+			<ObjectHeader title="{local>NAME}" intro="{local>CATEGORY}" 
+			              number="{local>PRICE}" numberUnit="{local>CURRENCY_CODE}" icon="sap-icon://product"></ObjectHeader>
 			<IconTabBar>
 				<items>
 					<IconTabFilter text="Additional Info" key="" icon="sap-icon://home">
@@ -12,11 +12,11 @@
 							<f:SimpleForm>
 								<f:content>
 									<Label text="Supplier Id"></Label>
-									<Text text="{local>SupplierId}"></Text>
+									<Text text="{local>SUPPLIER_ID}"></Text>
 									<Label text="Type Code"></Label>
-									<Text text="{local>TypeCode}"></Text>
+									<Text text="{local>TYPE_CODE}"></Text>
 									<Label text="Unit"></Label>
-									<Text text="{local>MeasureUnit}"></Text>
+									<Text text="{local>MEASURE_UNIT}"></Text>
 								</f:content>
 							</f:SimpleForm>
 						</content>
