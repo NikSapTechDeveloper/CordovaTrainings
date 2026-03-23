@@ -23,6 +23,24 @@ sap.ui.define([],function(){
 				
 			}
 			return imgStr;
-		}
+		},
+		getSyncStatus: function(value){
+			switch (value) {
+				case 1:
+					return 'Success';
+				case 0:
+					return 'Error';
+				default:
+			}
+		},
+		getSyncText: function(value){
+			switch (value) {
+				case 1:
+					return 'Server is in sync';
+				case 0:
+					return 'Not yet saved to SAP';
+				default:
+			}
+		},
 	};
 });

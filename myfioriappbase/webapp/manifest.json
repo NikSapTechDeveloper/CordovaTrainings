@@ -83,6 +83,11 @@
                     "pattern": "AddNewProduct",
                     "name": "add",
                     "target":["donald","AddNewProduct"]
+                },
+				{
+                    "pattern": "syncChanges",
+                    "name": "sync",
+                    "target":["donald","sync"]
                 }
 					]
 				}
@@ -126,6 +131,15 @@
 					"clearAggregation": true,
 					"controlId":"__xmlview1--idAppCon",
 					"viewName": "Add",
+					"controlAggregation": "detailPages",
+					"viewLevel": 2
+				},
+				"sync":{
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"controlId":"__xmlview1--idAppCon",
+					"viewName": "SyncStatus",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2
 				}

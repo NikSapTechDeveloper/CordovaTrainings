@@ -6,7 +6,7 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <preference name="AndroidInsecureFileModeEnabled" value="true"></preference>
+    
     <icon src="./www/img/logo.png" />
         <!-- Allow network access -->
     <access origin="*" />
@@ -34,10 +34,11 @@
     <splash src="res/screen/android/splash-screen.jpg" density="port-xhdpi" />
     <splash src="res/screen/android/splash-screen.jpg" density="port-xxhdpi" />
     <splash src="res/screen/android/splash-screen.jpg" density="port-xxxhdpi" />  -->
-
+    
+    <preference name="AndroidInsecureFileModeEnabled" value="true"></preference>
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splash-screen.png" />
-     <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" /> 
-     <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#ffffff" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" /> 
+    <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#ffffff" />
 </platform>
 
 

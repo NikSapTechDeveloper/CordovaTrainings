@@ -33,7 +33,7 @@ sap.ui.define([
                     
                 });
                 sqliteDB.transaction(function (tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS OFFLINE_STORE_NEW (OPERATION varchar, ENTITYSET varchar, DATA varchar, TIMESTAMP NUMERIC, SYNCTIME NUMERIC, primary key(OPERATION, ENTITYSET))');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS OFFLINE_STORE_NEW (OPERATION varchar, ENTITYSET varchar, DATA varchar, TIMESTAMP NUMERIC, SYNCTIME NUMERIC, SYNCED NUMERIC, primary key(OPERATION, ENTITYSET))');
                 }, function (error) {
                     console.log('Transaction ERROR: ' + error.message);
                 }, function () {

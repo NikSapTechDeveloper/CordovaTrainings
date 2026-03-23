@@ -1,17 +1,17 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.nikitatrainings.controller.View1"
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+controllerName="com.nikitatrainings.controller.SyncStatus"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="View 1">
+	<Page title="The Offline Store Sync Status" showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
 		<content>
-			<!--<Button text="Go To Next" press="onNext"></Button>-->
-			<SearchField id="idSearch" search="onSearch" liveChange="onSearch"></SearchField>
-			<List items="{ path: 'local>/ProductSet'
-			}" mode="SingleSelectMaster" itemPress="onItemSelect" id="idList"
-				  selectionChange="onSelectChange" growing="true">
+			
+			<List items="{ path: 'local>/OFFLINE_STORE_NEW'
+			}" mode="SingleSelectMaster" id="idSyncList"
+				  selectionChange="onSelectChange" >
 				<items>
-					<ObjectListItem intro="{local>CATEGORY}" title="{local>NAME}" icon="sap-icon://product"
-								    number="{local>PRICE}" numberUnit="{local>CURRENCY_CODE}">
+					<ObjectListItem intro="{local>OPERATION}" title="{local>ENTITYSET}" icon="sap-icon://product"
+								     numberUnit="{local>SYNCTIME}">
 						<firstStatus>
-							<ObjectStatus text="{local>TYPE_CODE}" state="Success"></ObjectStatus>
+							<ObjectStatus text="{path:'local>SYNCED', formatter:'.formatter.getSyncText'}" state="{path:'local>SYNCED', formatter:'.formatter.getSyncStatus'}"></ObjectStatus>
 						</firstStatus>
 					</ObjectListItem>
 					<!--<DisplayListItem label="Apple" value="Best antibiotic on this planet"></DisplayListItem>-->
@@ -49,14 +49,13 @@
 
      <Toolbar >
       <ToolbarSpacer />
-	   <Button icon="sap-icon://synchronize" press="onSyncPress" tooltip="Load Sync Screen"></Button>
-      <Button icon="sap-icon://add" press="onAddPress" tooltip="Add new product"></Button>
+      <Button icon="sap-icon://synchronize" press="onSyncPress" tooltip="Synchronize changes"></Button>
      </Toolbar>
    
 		</footer>
-		<headerContent>
+		<!-- <headerContent>
 			<Button icon="sap-icon://action" press="onNext"></Button>
-		</headerContent>
+		</headerContent> -->
 	</Page>
 
 </mvc:View>

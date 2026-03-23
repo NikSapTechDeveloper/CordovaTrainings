@@ -15,7 +15,7 @@ sap.ui.define([
                 "prodData": {
                     "PRODUCT_ID": "",
                     "CATEGORY": "Notebooks",
-                    "TYPE_CODE" : "PR",
+                    "TYPE_CODE": "PR",
                     "NAME": "",
                     "DESCRIPTION": "",
                     "SUPPLIER_ID": "0100000051",
@@ -33,23 +33,23 @@ sap.ui.define([
         herculis: function (oEvent) {
 
         },
-         productId: "",
+        productId: "",
         onEnter: function (oEvent) {
-          this.productId =  oEvent.getParameter("value");
+            this.productId = oEvent.getParameter("value");
 
-          var oDataModel = this.getView().getModel();
+            var oDataModel = this.getView().getModel();
 
-          var that =this;
-          oDataModel.read("/ProductSet('"+this.productId+"')",{
-            success:function(data){
-               that.oLocalModel.setProperty("/prodData", data)
-               that.setMode("Update")
-            },
-            error:function(oError){
-                MessageBox.show("Not Found");
-                that.setMode("Create");
-            }
-          })
+            var that = this;
+            oDataModel.read("/ProductSet('" + this.productId + "')", {
+                success: function (data) {
+                    that.oLocalModel.setProperty("/prodData", data)
+                    that.setMode("Update")
+                },
+                error: function (oError) {
+                    MessageBox.show("Not Found");
+                    that.setMode("Create");
+                }
+            })
         },
         mode: "Create",
         setMode: function (sMode) {
@@ -61,20 +61,20 @@ sap.ui.define([
                 this.getView().byId("prodId").setEnabled(true);
             } else {
                 this.getView().byId("idSave").setText("Update");
-                  this.getView().byId("prodId").setEnabled(false);
-                                  this.getView().byId("idDelete").setEnabled(true);
+                this.getView().byId("prodId").setEnabled(false);
+                this.getView().byId("idDelete").setEnabled(true);
 
             }
         },
 
-        onDelete:function(){
+        onDelete: function () {
             //    this.productId = this.oLocalModel.getProperty("/prodData/PRODUCT_ID");
             var oDataModel = this.getView().getModel();
-            oDataModel.remove("/ProductSet('"+this.productId+"')",{
+            oDataModel.remove("/ProductSet('" + this.productId + "')", {
                 //Step 5: get the response - success, error
                 success: function (data) {
                     MessageToast.show("Delete success");
-                    that .onClear();
+                    that.onClear();
                 },
                 error: function (oError) {
                     MessageBox.show("Not perfet now");
@@ -93,31 +93,29 @@ sap.ui.define([
             var oDataModel = this.getView().getModel();
             //Step 4: post this data to backend
 
-            if(this.mode === "Create"){
-               oDataModel.create("/ProductSet", payload, {
-                //Step 5: get the response - success, error
-                success: function (data) {
-                    MessageToast.show("Congratulations! The data has been posted to SAP");
-                },
-                error: function (oError) {
-                    debugger;
+            if (this.mode === "Create") {
+                if (this.checkOffline(this)) {
+                    this.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
                 }
-            });
-            }else{
-               oDataModel.update("/ProductSet('"+this.productId+"')", payload, {
-                //Step 5: get the response - success, error
-                success: function (data) {
-                    MessageToast.show("Data updated successfully");
-                },
-                error: function (oError) {
-                    MessageBox.show("Not fully good now")
+                if (navigator.connection.type !== 'none'){
+                   this.syncChangesWithServer(oDataModel); 
                 }
-            });
+              
+            } else {
+                oDataModel.update("/ProductSet('" + this.productId + "')", payload, {
+                    //Step 5: get the response - success, error
+                    success: function (data) {
+                        MessageToast.show("Data updated successfully");
+                    },
+                    error: function (oError) {
+                        MessageBox.show("Not fully good now")
+                    }
+                });
             }
-            
+
         },
         onClear: function () {
-            this.setMode("Create"); 
+            this.setMode("Create");
             this.oLocalModel.setProperty("/prodData", {
                 "PRODUCT_ID": "",
                 "CATEGORY": "Notebooks",

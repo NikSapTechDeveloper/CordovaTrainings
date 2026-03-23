@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, Formatter, MessageBox, reusedbapi) {
 	"use strict";
 
-	return Controller.extend("com.nikitatrainings.controller.View1", {
+	return Controller.extend("com.nikitatrainings.controller.SyncStatus", {
 		formatter: Formatter,
 		/**
 		 * Called when a controller is instantiated and its View controls (if available) are already created.
@@ -16,7 +16,7 @@ sap.ui.define([
 		onInit: function () {
 			//get the router object from Component.js
 			this.oRouter = this.getOwnerComponent().getRouter();
-			this.oRouter.getRoute("master").attachMatched(this._view1Rmh, this);
+			this.oRouter.getRoute("sync").attachMatched(this._view1Rmh, this);
 			let oDefaultModel = this.getOwnerComponent().getModel();
 			// oDefaultModel.setProperty("/deviceConnected", false);
 			// oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline")
@@ -57,110 +57,58 @@ sap.ui.define([
 				oLocalModel.setProperty("/deviceConnected", false);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
                  
-				if (this.checkOffline(this)) {
-                   var that = this;
-                   reusedbapi.read("OFFLINE_STORE_NEW", {
-					OPERATION: "GET",
-					ENTITYSET: "ProductSet"
-				   }).then(function(localdata){
-                     that.getOwnerComponent().getModel("local").setProperty("/ProductSet", JSON.parse(localdata[0].DATA));
-				   })
-				}
+				// if (this.checkOffline(this)) {
+                //    var that = this;
+                //    reusedbapi.read("OFFLINE_STORE_NEW", {
+				// 	OPERATION: "GET",
+				// 	ENTITYSET: "ProductSet"
+				//    }).then(function(localdata){
+                //      that.getOwnerComponent().getModel("local").setProperty("/ProductSet", JSON.parse(localdata[0].DATA));
+				//    })
+				// }
 			} else if(states[networkState] !== undefined){
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 
-				var that = this;
-				this.getOwnerComponent().getModel().read("/ProductSet",{
-					success:function(data){
-						that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
-						if (that.checkOffline(that)) {
-                          that.fillOfflineDb("ProductSet", data.results, "GET", 1);
-						}
+				// var that = this;
+				// this.getOwnerComponent().getModel().read("/ProductSet",{
+				// 	success:function(data){
+				// 		that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
+				// 		if (that.checkOffline(that)) {
+                //           that.fillOfflineDb("ProductSet", data.results, "GET", 1);
+				// 		}
 						
-					}
-				})
+				// 	}
+				// })
 			}else{
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 
-				var that = this;
-				this.getOwnerComponent().getModel().read("/ProductSet",{
-					success:function(data){
-						that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
-						if (that.checkOffline(that)) {
-                          that.fillOfflineDb("ProductSet", data.results, "GET", 1);
-						}
+				// var that = this;
+				// this.getOwnerComponent().getModel().read("/ProductSet",{
+				// 	success:function(data){
+				// 		that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
+				// 		if (that.checkOffline(that)) {
+                //           that.fillOfflineDb("ProductSet", data.results, "GET", 1);
+				// 		}
 						
-					}
-				})
+				// 	}
+				// })
 
 			}
-		},
-		onItemSelect: function (oEvent) {
-			var oSelectedItem = oEvent.getParameter("listItem");
-			var sTitle = oSelectedItem.getTitle();
-			this.onNext(sTitle);
-		},
-		oRouter: null,
-		onSelectChange: function (oEvent) {
-			var oList = oEvent.getSource();
-			// var aItems = oList.getSelectedItems();
-			// for (var i=0; i<aItems.length; i++) {
-			// 	console.log(aItems[i].getTitle());
-			// }
-			//Technique 1: to send data but can only send FIELD by FIELD
-			//if we have 100 fields, we will have 100 lines of code and multiply
-			// var sTitle = oList.getSelectedItem().getTitle();
-			// this.onNext(sTitle);
 
-			//Technique 2: Bind the complete View 2 with the element selected
-			// --> /fruits/2 -- {name: '', color: '', ....}
-			var sPath = oList.getSelectedItem().getBindingContextPath();
-			var sIndex = sPath.split("/")[sPath.split("/").length - 1];
-			this.onNext(sIndex);
-			// var oView2 = this.getView().getParent().getParent().getDetailPages()[1];
-			// oView2.bindElement(sPath);
+			if (this.checkOffline(this)) {
+                   var that = this;
+                   reusedbapi.read("OFFLINE_STORE_NEW", {
+					OPERATION: "POST",
+				   }).then(function(localdata){
+                     that.getOwnerComponent().getModel("local").setProperty("/OFFLINE_STORE_NEW", localdata);
+				   })
+				}
+
 
 		},
-		onSearch: function (oEvent) {
-			//Step 1: get the value entered by user on screen
-			var sSearchValue = oEvent.getParameter("query");
-			if (!sSearchValue) {
-				sSearchValue = oEvent.getParameter("newValue");
-			}
-			//Step 2: prepare a filter object - 2 operands and 1 operator
-			var oFilter = new sap.ui.model.Filter("name", sap.ui.model.FilterOperator.Contains, sSearchValue);
-			var oFilter2 = new sap.ui.model.Filter("type", sap.ui.model.FilterOperator.Contains, sSearchValue);
-			var aFilter = [oFilter, oFilter2];
-			var oFilterFinal = new sap.ui.model.Filter({
-				filters: aFilter,
-				and: false
-			});
-			//Step 3: get the control on which filter needs to be applied (List)
-			var oList = this.getView().byId("idList");
-			//step 4: Inject the filter into the binding of list
-			oList.getBinding("items").filter(oFilterFinal);
-		},
-		onNext: function (sIndex) {
-			// WHO IS RESPONSIBLE FOR NAVIGATION
-			this.oRouter.navTo("detail", {
-				navya: sIndex
-			});
-			//Step 1: Get The Container object for this view
-			//Now it is Split App Container Object
-			// var oParent = this.getView().getParent().getParent();
-
-			// //Step 2: go to view 1 from parent
-			// var oView2 = oParent.getDetailPages()[1];
-			// //Step 3: get the child of the view1 (viz. search field )
-			// var oPage = oView2.getContent()[0];
-			// //Step 4: get the value
-			// oPage.setTitle(sTitle);
-
-			// //Step 2: use that to navigate to second view
-			// oParent.toDetail("idView2");
-		},
+		
 		idleLogout: function () {
 			let time;
 			let that = this;
@@ -180,12 +128,11 @@ sap.ui.define([
 				time = setTimeout(autoLogout, 60000);
 			}
 		},
-		 onAddPress:function(){
-                this.oRouter.navTo("add");
-            },
-			onSyncPress:function(){
-				this.oRouter.navTo("sync");
-			}
+		onSyncPress: async function(){
+			let oDataModel = this.getOwnerComponent().getModel();
+			await this.syncChangesWithServer(oDataModel);
+			await this.checkConnection();
+		}
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).

@@ -2,7 +2,7 @@
             xmlns:l="sap.ui.layout"
             xmlns:f="sap.ui.layout.form"
             xmlns:core="sap.ui.core" controllerName="com.nikitatrainings.controller.Add">
-    <Page title="Manage Products">
+    <Page title="Manage Products" showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
         <VBox class="sapUiSmallMargin">
             <f:SimpleForm id="SimpleFormChange354"
                 editable="true"
