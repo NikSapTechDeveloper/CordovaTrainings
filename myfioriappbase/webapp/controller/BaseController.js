@@ -33,7 +33,7 @@ sap.ui.define([
                 }).then(function (localdata) {
                     //JSON.parse(localdata[0].DATA)
                     //Step 2 = Loop over each change POST Type
-                    for (let index = 1; index < localdata.length; index++) {
+                    for (let index = 0; index < localdata.length; index++) {
                         const element = localdata[index];
 
                         let entitySetName = element.ENTITYSET.split("_")[0];

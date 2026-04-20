@@ -13,19 +13,19 @@ sap.ui.define([
             this.oLocalModel = new JSONModel();
             this.oLocalModel.setData({
                 "prodData": {
-                    "PRODUCT_ID": "",
                     "CATEGORY": "Notebooks",
+                    "CURRENCY_CODE": "EUR",
                     "TYPE_CODE": "PR",
-                    "NAME": "",
                     "DESCRIPTION": "",
+                    "DIM_UNIT": "CM",
+                    "MEASURE_UNIT": "EA",
+                    "NAME": "",
+                    "PRICE": "0.00",
+                    "PRODUCT_ID": "",
+                    "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
                     "SUPPLIER_ID": "0100000051",
                     "SUPPLIER_NAME": "TECUM",
-                    "TAX_TARIF_CODE": "1 ",
-                    "MEASURE_UNIT": "EA",
-                    "PRICE": "0.00",
-                    "CURRENCY_CODE": "EUR",
-                    "DIM_UNIT": "CM",
-                    "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/NV-2022.jpg"
+                    "TAX_TARIF_CODE": "1 "
                 }
             });
             this.getView().setModel(this.oLocalModel, "prod");
@@ -97,10 +97,10 @@ sap.ui.define([
                 if (this.checkOffline(this)) {
                     this.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
                 }
-                if (navigator.connection.type !== 'none'){
-                   this.syncChangesWithServer(oDataModel); 
+                if (navigator.connection.type !== 'none') {
+                    this.syncChangesWithServer(oDataModel);
                 }
-              
+
             } else {
                 oDataModel.update("/ProductSet('" + this.productId + "')", payload, {
                     //Step 5: get the response - success, error
@@ -119,16 +119,18 @@ sap.ui.define([
             this.oLocalModel.setProperty("/prodData", {
                 "PRODUCT_ID": "",
                 "CATEGORY": "Notebooks",
-                "NAME": "",
-                "DESCRIPTION": "",
+                "CURRENCY_CODE": "EUR",
+                "TYPE_CODE": "PR",
+                "DESCRIPTION": "testing",
+                "DIM_UNIT": "CM",
+                "MEASURE_UNIT": "EA",
+                "NAME": "New product",
+                "PRICE": "0.00",
+                "PRODUCT_ID": "HT-3232",
+                "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
                 "SUPPLIER_ID": "0100000051",
                 "SUPPLIER_NAME": "TECUM",
-                "TAX_TARIF_CODE": "1",
-                "MEASURE_UNIT": "EA",
-                "PRICE": "0.00",
-                "CURRENCY_CODE": "EUR",
-                "DIM_UNIT": "CM",
-                "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/NV-2022.jpg"
+                "TAX_TARIF_CODE": "1 "
             });
         }
     });

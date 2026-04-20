@@ -18,4 +18,4 @@ server:
       ignoreCertError: true
       backend:
       - path: /sap
-        url: http://s4hana10.saraswatitechnologies.in:8010
+        url: https://122.162.240.164:44310
