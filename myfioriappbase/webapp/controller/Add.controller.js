@@ -2,8 +2,9 @@ sap.ui.define([
     'com/nikitatrainings/controller/BaseController',
     'sap/ui/model/json/JSONModel',
     'sap/m/MessageBox',
-    'sap/m/MessageToast'
-], function (BaseController, JSONModel, MessageBox, MessageToast) {
+    'sap/m/MessageToast',
+    'sap/ui/core/BusyIndicator'
+], function (BaseController, JSONModel, MessageBox, MessageToast, BusyIndicator) {
     'use strict';
     return BaseController.extend("com.nikitatrainings.controller.Add", {
         onInit: function () {
@@ -57,7 +58,6 @@ sap.ui.define([
             if (this.mode === "Create") {
                 this.getView().byId("idSave").setText("Save");
                 this.getView().byId("idDelete").setEnabled(false);
-
                 this.getView().byId("prodId").setEnabled(true);
             } else {
                 this.getView().byId("idSave").setText("Update");
@@ -82,10 +82,12 @@ sap.ui.define([
             });
         },
         onSave: function () {
+            BusyIndicator.show(0);
             //Step 1: Prepare payload
             var payload = this.oLocalModel.getProperty("/prodData");
             //Step 2: Pre-checks
             if (payload.PRODUCT_ID === "") {
+                BusyIndicator.hide();
                 MessageBox.error("Please enter a valid new product Id");
                 return;
             }
@@ -105,9 +107,11 @@ sap.ui.define([
                 oDataModel.update("/ProductSet('" + this.productId + "')", payload, {
                     //Step 5: get the response - success, error
                     success: function (data) {
+                        BusyIndicator.hide();
                         MessageToast.show("Data updated successfully");
                     },
                     error: function (oError) {
+                        BusyIndicator.hide();
                         MessageBox.show("Not fully good now")
                     }
                 });

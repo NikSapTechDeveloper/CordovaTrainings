@@ -60,13 +60,16 @@
 				{
 					"pattern": "split",
 					"name": "App",
-					"target": ["App"],
+					"target": [
+						"App"
+					],
 					"subroutes": [
 						{
 							"pattern": "master",
 							"name": "master",
 							"target": [
-								"donald","trumph"
+								"view1",
+								"empty"
 							]
 						},
 						{
@@ -75,70 +78,76 @@
 							"titleTarget": "",
 							"greedy": false,
 							"target": [
-								"donald",
-								"modi"
+								"view1",
+								"view2"
 							]
 						},
 						{
-                    "pattern": "AddNewProduct",
-                    "name": "add",
-                    "target":["donald","AddNewProduct"]
-                },
-				{
-                    "pattern": "syncChanges",
-                    "name": "sync",
-                    "target":["donald","sync"]
-                }
+							"pattern": "AddNewProduct",
+							"name": "add",
+							"target": [
+								"view1",
+								"AddNewProduct"
+							]
+						},
+						{
+							"pattern": "syncChanges",
+							"name": "sync",
+							"target": [
+								"view1",
+								"sync"
+							]
+						}
 					]
 				}
 			],
 			"targets": {
-				"App":{
+				"App": {
 					"viewName": "App",
-					"controlId":"idMainApp",
+					"controlId": "idMainApp",
 					"id": "idAppView",
 					"controlAggregation": "pages",
-					"clearAggregation":true,
-					"viewLevel":"1"
+					"clearAggregation": true,
+					"viewLevel": "1"
 				},
-				"donald": {
+				"view1": {
 					"viewName": "View1",
 					"id": "idView1",
-					"controlId":"__xmlview1--idAppCon",
+					"controlId": "__xmlview1--idAppCon",
 					"controlAggregation": "masterPages",
-					"clearAggregation":true
+					"clearAggregation": true
 				},
-				"trumph": {
+				"empty": {
 					"viewName": "Empty",
 					"id": "idEmpty",
-					"controlId":"__xmlview1--idAppCon",
+					"controlId": "__xmlview1--idAppCon",
 					"controlAggregation": "detailPages",
 					"viewLevel": 1,
-					"clearAggregation":true
+					"clearAggregation": true
 				},
-				"modi": {
+				"view2": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearAggregation": true,
-					"controlId":"__xmlview1--idAppCon",
+					"controlId": "__xmlview1--idAppCon",
 					"viewName": "View2",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2
 				},
-				"AddNewProduct":{
+				"AddNewProduct": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearAggregation": true,
-					"controlId":"__xmlview1--idAppCon",
+					"controlId": "__xmlview1--idAppCon",
 					"viewName": "Add",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2
 				},
-				"sync":{
+				"sync": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearAggregation": true,
-					"controlId":"__xmlview1--idAppCon",
+					"controlId": "__xmlview1--idAppCon",
 					"viewName": "SyncStatus",
 					"controlAggregation": "detailPages",
 					"viewLevel": 2

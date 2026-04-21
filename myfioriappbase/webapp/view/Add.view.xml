@@ -1,10 +1,19 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-            xmlns:l="sap.ui.layout"
-            xmlns:f="sap.ui.layout.form"
-            xmlns:core="sap.ui.core" controllerName="com.nikitatrainings.controller.Add">
-    <Page title="Manage Products" showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    controllerName="com.nikitatrainings.controller.Add"
+>
+    <Page
+        title="Manage Products"
+        showNavButton="{=${local>/isPhone} === true? true:false}"
+        navButtonPress="onNavBack"
+    >
         <VBox class="sapUiSmallMargin">
-            <f:SimpleForm id="SimpleFormChange354"
+            <f:SimpleForm
+                id="SimpleFormChange354"
                 editable="true"
                 layout="ResponsiveGridLayout"
                 title="Product Data"
@@ -20,13 +29,17 @@
                 columnsXL="1"
                 columnsL="1"
                 columnsM="1"
-                singleContainerFullSize="false" >
+                singleContainerFullSize="false"
+            >
                 <f:content>
                     <Label text="Product Id" />
-                    <Input id="prodId" value="{prod>/prodData/PRODUCT_ID}" submit="onEnter"/>
+                    <Input
+                        id="prodId"
+                        value="{prod>/prodData/PRODUCT_ID}"
+                        submit="onEnter"
+                    />
                     <Label text="Name/Description" />
-                    <Input value="{prod>/prodData/NAME}">
-                    </Input>
+                    <Input value="{prod>/prodData/NAME}" />
                     <Input value="{prod>/prodData/DESCRIPTION}">
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
@@ -39,19 +52,30 @@
                         </layoutData>
                     </Input>
                     <Label text="Price" />
-                    <Input value="{prod>/prodData/PRICE}">
-                    </Input>
+                    <Input value="{prod>/prodData/PRICE}" />
                     <Input value="{prod>/prodData/CURRENCY_CODE}">
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
                         </layoutData>
                     </Input>
                     <Label text="Category" />
-                    <Select id="category" selectedKey="{prod>/prodData/CATEGORY}">
+                    <Select
+                        id="category"
+                        selectedKey="{prod>/prodData/CATEGORY}"
+                    >
                         <items>
-                            <core:Item text="Notebooks" key="Notebooks"/>
-                            <core:Item text="Projectors" key="Projectors"/>
-                            <core:Item text="Mice" key="Mice"/>
+                            <core:Item
+                                text="Notebooks"
+                                key="Notebooks"
+                            />
+                            <core:Item
+                                text="Projectors"
+                                key="Projectors"
+                            />
+                            <core:Item
+                                text="Mice"
+                                key="Mice"
+                            />
                         </items>
                     </Select>
                 </f:content>
@@ -60,10 +84,24 @@
         <footer>
             <Toolbar>
                 <ToolbarSpacer />
-                <Button id="idSave" text="Save" press="onSave" type="Accept"></Button>
-                <Button id="idDelete" text="Delete" press="onDelete" type="Reject"></Button>
-                <Button text="Clear" press="onClear" type="Emphasized"></Button>
+                <Button
+                    id="idSave"
+                    text="Save"
+                    press="onSave"
+                    type="Accept"
+                />
+                <Button
+                    id="idDelete"
+                    text="Delete"
+                    press="onDelete"
+                    type="Reject"
+                />
+                <Button
+                    text="Clear"
+                    press="onClear"
+                    type="Emphasized"
+                />
             </Toolbar>
-        </footer>        
+        </footer>
     </Page>
 </mvc:View>

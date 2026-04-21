@@ -1,8 +1,11 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "com/nikitatrainings/offline/reusedbapi"
+    "com/nikitatrainings/offline/reusedbapi",
+    'sap/ui/core/BusyIndicator',
+    'sap/m/MessageBox',
+    'sap/m/MessageToast',
 ],
-    function (Controller, reusedbapi) {
+    function (Controller, reusedbapi, BusyIndicator, MessageBox, MessageToast) {
         return Controller.extend("com.nikitatrainings.controller.BaseController", {
 
             onNavBack: function () {
@@ -41,6 +44,7 @@ sap.ui.define([
                         oDataModel.create("/" + entitySetName, JSON.parse(element.DATA), {
                             //Step 5: get the response - success, error
                             success: function (data) {
+                                BusyIndicator.hide();
                                 // MessageToast.show("Congratulations! The data has been posted to SAP");
                                 reusedbapi.update("OFFLINE_STORE_NEW", {
                                     OPERATION: "POST",
@@ -52,6 +56,7 @@ sap.ui.define([
                                 }, ["OPERATION", "ENTITYSET"])
                             },
                             error: function (oError) {
+                                BusyIndicator.hide();
                                 debugger;
                             }
                         });
@@ -61,10 +66,10 @@ sap.ui.define([
 
             },
             fillOfflineDb: function (entity, data, operation, synced) {
-                let entityName ="";
-                if(entity.includes("_")){
+                let entityName = "";
+                if (entity.includes("_")) {
                     entityName = entity.split("_")[0];
-                }else{
+                } else {
                     entityName = entity;
                 }
                 switch (entityName) {
@@ -76,7 +81,13 @@ sap.ui.define([
                             TIMESTAMP: Math.floor(Date.now() / 1000),
                             SYNCTIME: Math.floor(Date.now() / 1000),
                             SYNCED: synced
-                        }, ["OPERATION", "ENTITYSET"])
+                        }, ["OPERATION", "ENTITYSET"]).then(function (result) {
+                            BusyIndicator.hide();
+                            MessageToast.show("Your data is saved locally and will be synced with SAP when you are online");
+                        }).catch(function (error) {
+                            BusyIndicator.hide();
+                            MessageBox.error("Error while saving data locally");
+                        });
                         break;
                     default:
                         break;

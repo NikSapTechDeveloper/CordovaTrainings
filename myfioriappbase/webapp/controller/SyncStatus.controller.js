@@ -57,43 +57,17 @@ sap.ui.define([
 				oLocalModel.setProperty("/deviceConnected", false);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
                  
-				// if (this.checkOffline(this)) {
-                //    var that = this;
-                //    reusedbapi.read("OFFLINE_STORE_NEW", {
-				// 	OPERATION: "GET",
-				// 	ENTITYSET: "ProductSet"
-				//    }).then(function(localdata){
-                //      that.getOwnerComponent().getModel("local").setProperty("/ProductSet", JSON.parse(localdata[0].DATA));
-				//    })
-				// }
+			
 			} else if(states[networkState] !== undefined){
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 
-				// var that = this;
-				// this.getOwnerComponent().getModel().read("/ProductSet",{
-				// 	success:function(data){
-				// 		that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
-				// 		if (that.checkOffline(that)) {
-                //           that.fillOfflineDb("ProductSet", data.results, "GET", 1);
-				// 		}
-						
-				// 	}
-				// })
+				
 			}else{
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 
-				// var that = this;
-				// this.getOwnerComponent().getModel().read("/ProductSet",{
-				// 	success:function(data){
-				// 		that.getOwnerComponent().getModel("local").setProperty("/ProductSet",data.results);
-				// 		if (that.checkOffline(that)) {
-                //           that.fillOfflineDb("ProductSet", data.results, "GET", 1);
-				// 		}
-						
-				// 	}
-				// })
+				
 
 			}
 
@@ -125,7 +99,7 @@ sap.ui.define([
 			}
 			function resetTimer() {
 				clearTimeout(time);
-				time = setTimeout(autoLogout, 60000);
+				time = setTimeout(autoLogout, 600000);
 			}
 		},
 		onSyncPress: async function(){
@@ -133,31 +107,6 @@ sap.ui.define([
 			await this.syncChangesWithServer(oDataModel);
 			await this.checkConnection();
 		}
-		/**
-		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-		 * (NOT before the first rendering! onInit() is used for that one!).
-		 * @memberOf com.nikitatrainings.view.View1
-		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf com.nikitatrainings.view.View1
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf com.nikitatrainings.view.View1
-		 */
-		//	onExit: function() {
-		//
-		//	}
 
 	});
 

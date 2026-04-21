@@ -19,21 +19,6 @@
     <allow-intent href="https://*/*" />
 
     <platform name="android">
-
-    <!-- these all are got depricated -->
-    <!-- <splash src="res/screen/android/splash-screen.jpg" density="land-hdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="land-ldpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="land-mdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="land-xhdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="land-xxhdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="land-xxxhdpi" />
-
-    <splash src="res/screen/android/splash-screen.jpg" density="port-hdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="port-ldpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="port-mdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="port-xhdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="port-xxhdpi" />
-    <splash src="res/screen/android/splash-screen.jpg" density="port-xxxhdpi" />  -->
     
     <preference name="AndroidInsecureFileModeEnabled" value="true"></preference>
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splash-screen.png" />

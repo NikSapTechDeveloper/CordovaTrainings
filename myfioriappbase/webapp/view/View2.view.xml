@@ -1,80 +1,165 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.nikitatrainings.controller.View2"
-	xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="View 2"  showNavButton="{=${local>/isPhone} === true? true:false}" navButtonPress="onNavBack">
-		<content>
-			<!--<Button text="Back" press="onBack"></Button>-->
-			<ObjectHeader title="{local>NAME}" intro="{local>CATEGORY}" 
-			              number="{local>PRICE}" numberUnit="{local>CURRENCY_CODE}" icon="sap-icon://product"></ObjectHeader>
-			<IconTabBar>
-				<items>
-					<IconTabFilter text="Additional Info" key="" icon="sap-icon://home">
-						<content>
-							<f:SimpleForm>
-								<f:content>
-									<Label text="Supplier Id"></Label>
-									<Text text="{local>SUPPLIER_ID}"></Text>
-									<Label text="Type Code"></Label>
-									<Text text="{local>TYPE_CODE}"></Text>
-									<Label text="Unit"></Label>
-									<Text text="{local>MEASURE_UNIT}"></Text>
-								</f:content>
-							</f:SimpleForm>
-						</content>
-					</IconTabFilter>
-					<IconTabFilter text="Suppliers" key="" icon="sap-icon://supplier">
-						<content>
-							<core:Fragment fragmentName="com.nikitatrainings.fragments.supplierTable" type="XML"></core:Fragment>
-						</content>
-					</IconTabFilter>
-					<IconTabFilter text="Cities" key="" icon="sap-icon://arrow-down">
-						<Select items="{local>/cities}">
-							<core:Item key="{local>name}" text="{local>name}"></core:Item>
-						</Select>
-						<ComboBox items="{local>/cities}">
-							<core:Item key="{name}" text="{name}"></core:Item>
-						</ComboBox>
-						<MultiComboBox items="{local>/cities}">
-							<core:Item key="{local>name}" text="{local>name}"></core:Item>
-						</MultiComboBox>
-					</IconTabFilter>
-					<IconTabFilter text="Capture Photo" icon="sap-icon://action-settings">
-					  <VBox alignContent="Center" alignItems="Center" width="40%">
-					    <Label text="Capture Photo" class="labelPadding" design="Bold" required="true"></Label>
-						<core:Icon class="cameraIconBorder sapUiTinyMargin" size="2rem" height="6rem" 
-						   backgroundColor="orange" width="8rem" src="sap-icon://background" 
-						   visible="{= ${local>/PhotoData/Picture} ? false : true }"
-						   press="capturePhoto">
-						   <core:customData>
-						     <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
-						   </core:customData>
-						   </core:Icon>
-						   <Image press="viewImageDialog" class="sapUiTinyMarginTopBottom" 
-						      src="{path:'local>/PhotoData/Picture',formatter:'.formatter.getBase64ToImage'}"
-							  height="6rem" visible="{= ${local>/PhotoData/Picture} ? true : false }">
-                               <customData>
-							     <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
-							   </customData>
-							</Image>
+<mvc:View
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="com.nikitatrainings.controller.View2"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+>
+    <Page
+        title="Add Product"
+        showNavButton="{=${local>/isPhone} === true? true:false}"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <!--<Button text="Back" press="onBack"></Button>-->
+            <ObjectHeader
+                title="{local>NAME}"
+                intro="{local>CATEGORY}"
+                number="{local>PRICE}"
+                numberUnit="{local>CURRENCY_CODE}"
+                icon="sap-icon://product"
+            />
+            <IconTabBar>
+                <items>
+                    <IconTabFilter
+                        text="Additional Info"
+                        key=""
+                        icon="sap-icon://home"
+                    >
+                        <content>
+                            <f:SimpleForm>
+                                <f:content>
+                                    <Label text="Supplier Id" />
+                                    <Text text="{local>SUPPLIER_ID}" />
+                                    <Label text="Type Code" />
+                                    <Text text="{local>TYPE_CODE}" />
+                                    <Label text="Unit" />
+                                    <Text text="{local>MEASURE_UNIT}" />
+                                </f:content>
+                            </f:SimpleForm>
+                        </content>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        text="Suppliers"
+                        key=""
+                        icon="sap-icon://supplier"
+                    >
+                        <content>
+                            <core:Fragment
+                                fragmentName="com.nikitatrainings.fragments.supplierTable"
+                                type="XML"
+                            />
+                        </content>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        text="Cities"
+                        key=""
+                        icon="sap-icon://arrow-down"
+                    >
+                        <Select items="{local>/cities}">
+                            <core:Item
+                                key="{local>name}"
+                                text="{local>name}"
+                            />
+                        </Select>
+                        <ComboBox items="{local>/cities}">
+                            <core:Item
+                                key="{name}"
+                                text="{name}"
+                            />
+                        </ComboBox>
+                        <MultiComboBox items="{local>/cities}">
+                            <core:Item
+                                key="{local>name}"
+                                text="{local>name}"
+                            />
+                        </MultiComboBox>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        text="Capture Photo"
+                        icon="sap-icon://action-settings"
+                    >
+                        <VBox
+                            alignContent="Center"
+                            alignItems="Center"
+                            width="40%"
+                        >
+                            <Label
+                                text="Capture Photo"
+                                class="labelPadding"
+                                design="Bold"
+                                required="true"
+                            />
+                            <core:Icon
+                                class="cameraIconBorder sapUiTinyMargin"
+                                size="2rem"
+                                height="6rem"
+                                backgroundColor="orange"
+                                width="8rem"
+                                src="sap-icon://background"
+                                visible="{= ${local>/PhotoData/Picture} ? false : true }"
+                                press="capturePhoto"
+                            >
+                                <core:customData>
+                                    <core:CustomData
+                                        key="IconData"
+                                        value="{local>/PhotoData}"
+                                    />
+                                </core:customData>
+                            </core:Icon>
+                            <Image
+                                press="viewImageDialog"
+                                class="sapUiTinyMarginTopBottom"
+                                src="{path:'local>/PhotoData/Picture',formatter:'.formatter.getBase64ToImage'}"
+                                height="6rem"
+                                visible="{= ${local>/PhotoData/Picture} ? true : false }"
+                            >
+                                <customData>
+                                    <core:CustomData
+                                        key="IconData"
+                                        value="{local>/PhotoData}"
+                                    />
+                                </customData>
+                            </Image>
 
-							<HBox alignContent="Center" alignItems="Center">
-							  <Button icon="sap-icon://camera" class="mediumButton cameraButton" tooltip="Click Here To Capture Image"
-							  press="capturePhoto">
-							   <customData>
-							   <core:CustomData key="IconData" value="{local>/PhotoData}"></core:CustomData>
-							   </customData>
-							  </Button>
-							</HBox>
-					  </VBox>
-					</IconTabFilter>
-				</items>
-			</IconTabBar>
-		</content>
-		<footer>
-			<Toolbar>
-				<ToolbarSpacer />
-				<Button text="Save" press="onSave" type="Accept"></Button>
-				<Button text="Cancel" press="onCancel" type="Reject"></Button>
-			</Toolbar>
-		</footer>
-	</Page>
+                            <HBox
+                                alignContent="Center"
+                                alignItems="Center"
+                            >
+                                <Button
+                                    icon="sap-icon://camera"
+                                    class="mediumButton cameraButton"
+                                    tooltip="Click Here To Capture Image"
+                                    press="capturePhoto"
+                                >
+                                    <customData>
+                                        <core:CustomData
+                                            key="IconData"
+                                            value="{local>/PhotoData}"
+                                        />
+                                    </customData>
+                                </Button>
+                            </HBox>
+                        </VBox>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="Save"
+                    press="onSave"
+                    type="Accept"
+                />
+                <Button
+                    text="Cancel"
+                    press="onCancel"
+                    type="Reject"
+                />
+            </Toolbar>
+        </footer>
+    </Page>
 </mvc:View>
