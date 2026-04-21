@@ -11,7 +11,33 @@ sap.ui.define([
             this.oRouter = this.getOwnerComponent().getRouter();
             this.oRouter.getRoute("add").attachMatched(this.herculis, this);
 
+        },
+        generateId: function () {
+            const getRandomLetters = (length) => {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            };
+
+            const getRandomNumber = (length) => {
+                let min = Math.pow(10, length - 1);
+                let max = Math.pow(10, length) - 1;
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            };
+
+            const prefix = getRandomLetters(2);   // e.g. HT
+            const middle = getRandomLetters(1);   // e.g. E
+            const number = getRandomNumber(3);    // e.g. 456
+
+            return `${prefix}-${middle}${number}`;
+        },
+        herculis: function (oEvent) {
             this.oLocalModel = new JSONModel();
+
+            let sProductId = this.generateId();
             this.oLocalModel.setData({
                 "prodData": {
                     "CATEGORY": "Notebooks",
@@ -22,7 +48,7 @@ sap.ui.define([
                     "MEASURE_UNIT": "EA",
                     "NAME": "",
                     "PRICE": "0.00",
-                    "PRODUCT_ID": "",
+                    "PRODUCT_ID": sProductId,
                     "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
                     "SUPPLIER_ID": "0100000051",
                     "SUPPLIER_NAME": "TECUM",
@@ -30,9 +56,6 @@ sap.ui.define([
                 }
             });
             this.getView().setModel(this.oLocalModel, "prod");
-        },
-        herculis: function (oEvent) {
-
         },
         productId: "",
         onEnter: function (oEvent) {
@@ -96,11 +119,10 @@ sap.ui.define([
             //Step 4: post this data to backend
 
             if (this.mode === "Create") {
-                if (this.checkOffline(this)) {
-                    this.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
-                }
                 if (navigator.connection.type !== 'none') {
-                    this.syncChangesWithServer(oDataModel);
+                    this.syncChangesWithServerOnline(oDataModel, payload);
+                } else {
+                    this.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
                 }
 
             } else {

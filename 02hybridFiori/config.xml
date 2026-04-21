@@ -21,7 +21,7 @@
     <platform name="android">
     
     <preference name="AndroidInsecureFileModeEnabled" value="true"></preference>
-    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splash-screen.png" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/logo.png" />
     <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" /> 
     <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#ffffff" />
 </platform>
@@ -34,8 +34,8 @@
 <preference name="ShowSplashScreenSpinner" value="true"/>
 <!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
 <platform name="windows">
-    <splash src="res/screen/android/splash-screen.jpg" target="SplashScreen"/>
-    <splash src="res/screen/android/splash-screen.jpg" target="SplashScreenPhone"/>
+    <splash src="res/screen/android/logo.png" target="SplashScreen"/>
+    <splash src="res/screen/android/logo.png" target="SplashScreenPhone"/>
 </platform>
 
 </widget>

@@ -8,7 +8,7 @@
     <App>
         <pages>
             <Page
-                title="I am an Empty View"
+                title="Welcome"
                 showNavButton="{=${local>/isPhone} === true? true:false}"
                 navButtonPress="onNavBack"
             >

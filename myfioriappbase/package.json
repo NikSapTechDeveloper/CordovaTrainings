@@ -8,6 +8,9 @@
     "move-custom-js": "@powershell Copy-Item -Force -Recurse -Verbose -Path './dist/resources/sap-ui-custom.js' -Destination '../02hybridFiori/www/resources'",
     "build": "ui5 build --clean-dest self-contained --all --include-task=generateComponentPreload generateLibraryPreload",
     "start": "ui5 serve --config ui5-dist.yaml",
+    "deploy-dev": "npm run build-dev && npm run deploy-dev-nobuild",
+    "build-test-dev": "cross-env UI5_ENV=dev ui5 build --config=ui5.yaml --clean-dest --dest www --include-task= --exclude-task=generateLibraryPreload generateLibraryManifest generateComponentPreload createDebugFiles minify",
+    "deploy-test-dev": "npm run build-test-dev && @powershell Remove-Item '../02hybridFiori/www' -Recurse && @powershell Copy-Item -Force -Recurse -Verbose -Path './www' -Destination '../02hybridFiori/www'",
     "start-hybrid": "npm run build && npm run move-to-mobile && npm run move-custom-js && cd ../02hybridFiori && cordova run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

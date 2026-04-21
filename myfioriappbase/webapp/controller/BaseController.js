@@ -9,6 +9,7 @@ sap.ui.define([
         return Controller.extend("com.nikitatrainings.controller.BaseController", {
 
             onNavBack: function () {
+                this.getOwnerComponent().getRouter().navTo("master", {}, true);
                 let oSplitApp = this.getView().getParent().getParent();
                 let oMasterApp = oSplitApp.getMasterPages()[0];
                 oSplitApp.toMaster(oMasterApp, "flip");
@@ -25,6 +26,37 @@ sap.ui.define([
 
                 return false;
             },
+            syncChangesWithServerOnline: function (oDataModel, payload) {
+                 var that = this;
+                //Step 3 = Trigger Post Request, Once POst is done, upsert our local DB
+                oDataModel.create("/ProductSet", payload, {
+                    //Step 5: get the response - success, error
+                    success: function (data) {
+                        BusyIndicator.hide();
+                        // MessageToast.show("Congratulations! The data has been posted to SAP");
+                        reusedbapi.upsert("OFFLINE_STORE_NEW", {
+                            OPERATION: "POST",
+                            ENTITYSET: "ProductSet_" + data.PRODUCT_ID,
+                            DATA: JSON.stringify(data),
+                            // TIMESTAMP: Math.floor(Date.now() / 1000),
+                            SYNCTIME: Math.floor(Date.now() / 1000),
+                            SYNCED: 1
+                        }, ["OPERATION", "ENTITYSET"]).then(function (result) {
+                            BusyIndicator.hide();
+                            MessageToast.show("Your data is synced with SAP ");
+                        }).catch(function (error) {
+                            BusyIndicator.hide();
+                            MessageToast.show("Error while saving to SAP, retrying with Local DB");
+                            that.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
+                        });
+                    },
+                    error: function (oError) {
+                        BusyIndicator.hide();
+                        MessageToast.show("Error while saving to SAP, retrying with Local DB");
+                        that.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
+                    }
+                });
+            },
             syncChangesWithServer: function (oDataModel) {
 
                 var that = this;
@@ -33,14 +65,14 @@ sap.ui.define([
 
                 reusedbapi.read("OFFLINE_STORE_NEW", {
                     OPERATION: "POST",
+                    SYNCED: 0
                 }).then(function (localdata) {
-                    //JSON.parse(localdata[0].DATA)
                     //Step 2 = Loop over each change POST Type
                     for (let index = 0; index < localdata.length; index++) {
                         const element = localdata[index];
 
                         let entitySetName = element.ENTITYSET.split("_")[0];
-                        //Step 3 = Trigger Post Request, Once POst is done, Update our local DB
+                        //Step 3 = Trigger Post Request, Once POst is done, upsert our local DB
                         oDataModel.create("/" + entitySetName, JSON.parse(element.DATA), {
                             //Step 5: get the response - success, error
                             success: function (data) {

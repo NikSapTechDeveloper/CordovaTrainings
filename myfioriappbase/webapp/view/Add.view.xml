@@ -10,6 +10,7 @@
         title="Manage Products"
         showNavButton="{=${local>/isPhone} === true? true:false}"
         navButtonPress="onNavBack"
+        class="sapUiResponsiveContentPadding"
     >
         <VBox class="sapUiSmallMargin">
             <f:SimpleForm
@@ -37,23 +38,31 @@
                         id="prodId"
                         value="{prod>/prodData/PRODUCT_ID}"
                         submit="onEnter"
+                        editable="false"
                     />
-                    <Label text="Name/Description" />
+                    <Label text="Name" />
                     <Input value="{prod>/prodData/NAME}" />
-                    <Input value="{prod>/prodData/DESCRIPTION}">
+                    <Label text="Description" />
+                    <TextArea value="{prod>/prodData/DESCRIPTION}">
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
                         </layoutData>
-                    </Input>
+                    </TextArea>
                     <Label text="Supplier ID" />
-                    <Input value="{prod>/prodData/SUPPLIER_ID}">
+                    <Input
+                        value="{prod>/prodData/SUPPLIER_ID}"
+                        editable="false"
+                    >
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
                         </layoutData>
                     </Input>
                     <Label text="Price" />
                     <Input value="{prod>/prodData/PRICE}" />
-                    <Input value="{prod>/prodData/CURRENCY_CODE}">
+                    <Input
+                        value="{prod>/prodData/CURRENCY_CODE}"
+                        editable="false"
+                    >
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
                         </layoutData>
@@ -75,6 +84,18 @@
                             <core:Item
                                 text="Mice"
                                 key="Mice"
+                            />
+                            <core:Item
+                                text="Monitors"
+                                key="Monitors"
+                            />
+                            <core:Item
+                                text="Remote"
+                                key="Remote"
+                            />
+                            <core:Item
+                                text="Phone"
+                                key="Phone"
                             />
                         </items>
                     </Select>

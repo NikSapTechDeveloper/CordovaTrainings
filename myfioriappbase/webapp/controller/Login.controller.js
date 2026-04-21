@@ -22,16 +22,14 @@ sap.ui.define([
 			let that = this;
 			let sUser = this.getView().byId("idUser").getValue();
 			let sPassword = this.getView().byId("idPassword").getValue();
+			if (!sUser || !sPassword) {
+				MessageBox.error("Credentials cannot be blank.");
+				return;
+			}
 			let oDataModel = new ODataModel("https://122.162.240.164:44310/sap/opu/odata/sap/ZNIKITA_MOCK_PROJECT_SRV/", {
 				user: sUser,
 				password: sPassword,
 			});
-            // oDataModel.setTokenHandlingEnabled(false);
-
-			if (!oDataModel.oMetadata.sUser || !oDataModel.oMetadata.sPassword) {
-				MessageBox.error("Credentials cannot be blank.");
-				return;
-			}
 
 			if (navigator.connection.type !== 'none') {
 				oDataModel.attachMetadataLoaded(null, () => {
@@ -56,12 +54,7 @@ sap.ui.define([
 						})
 
 					}
-
-
 				}, null)
-
-
-
 			} else {
 				dbapi.read("USER_LOGIN", {
 					USERID: oDataModel.oMetadata.sUser
@@ -77,38 +70,9 @@ sap.ui.define([
 						MessageBox.error("You are offline and this user never stored in offline db");
 					}
 				})
-
 			}
-
 			oDataModel.refreshMetadata();
-
 		},
-
-		/**
-		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-		 * (NOT before the first rendering! onInit() is used for that one!).
-		 * @memberOf com.nikitatrainings.view.App
-		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf com.nikitatrainings.view.App
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf com.nikitatrainings.view.App
-		 */
-		//	onExit: function() {
-		//
-		//	}
 
 	});
 

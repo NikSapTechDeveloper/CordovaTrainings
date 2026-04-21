@@ -18,8 +18,6 @@ sap.ui.define([
 			this.oRouter = this.getOwnerComponent().getRouter();
 			this.oRouter.getRoute("master").attachMatched(this._view1Rmh, this);
 			let oDefaultModel = this.getOwnerComponent().getModel();
-			// oDefaultModel.setProperty("/deviceConnected", false);
-			// oDefaultModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline")
 			this.idleLogout();
 		},
 		_view1Rmh: function (oEvent) {
@@ -29,10 +27,9 @@ sap.ui.define([
 			var networkState = navigator.connection.type;
 
 			let oDefaultModel = this.getView().getModel();
-			let oLocalModel = this.getOwnerComponent().getModel("local")
+			let oLocalModel = this.getOwnerComponent().getModel("local");
 
 			const Connection = {
-
 				UNKNOWN: 'unknown',
 				ETHERNET: 'ethernet',
 				WIFI: 'wifi',
@@ -77,7 +74,6 @@ sap.ui.define([
 						if (that.checkOffline(that)) {
 							that.fillOfflineDb("ProductSet", data.results, "GET", 1);
 						}
-
 					}
 				})
 			} else {
@@ -128,6 +124,10 @@ sap.ui.define([
 			var sSearchValue = oEvent.getParameter("query");
 			if (!sSearchValue) {
 				sSearchValue = oEvent.getParameter("newValue");
+			}
+
+			if (!sSearchValue) {
+				return;
 			}
 			//Step 2: prepare a filter object - 2 operands and 1 operator
 			var oFilter = new sap.ui.model.Filter("name", sap.ui.model.FilterOperator.Contains, sSearchValue);

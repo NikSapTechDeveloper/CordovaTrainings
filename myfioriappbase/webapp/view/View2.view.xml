@@ -10,6 +10,7 @@
         title="Add Product"
         showNavButton="{=${local>/isPhone} === true? true:false}"
         navButtonPress="onNavBack"
+        class="sapUiResponsivePadding"
     >
         <content>
             <!--<Button text="Back" press="onBack"></Button>-->
@@ -20,15 +21,36 @@
                 numberUnit="{local>CURRENCY_CODE}"
                 icon="sap-icon://product"
             />
-            <IconTabBar>
+            <IconTabBar
+                selectedKey="{local>/selectedKey}"
+            >
                 <items>
                     <IconTabFilter
                         text="Additional Info"
-                        key=""
+                        key="additionalInfo"
                         icon="sap-icon://home"
                     >
                         <content>
-                            <f:SimpleForm>
+                            <f:SimpleForm
+                                width="100%"
+                                id="SimpleFormChange34"
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                title="Product Data"
+                                labelSpanXL="3"
+                                labelSpanL="3"
+                                labelSpanM="3"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="4"
+                                emptySpanL="4"
+                                emptySpanM="4"
+                                emptySpanS="0"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                                singleContainerFullSize="false"
+                            >
                                 <f:content>
                                     <Label text="Supplier Id" />
                                     <Text text="{local>SUPPLIER_ID}" />
@@ -42,7 +64,7 @@
                     </IconTabFilter>
                     <IconTabFilter
                         text="Suppliers"
-                        key=""
+                        key="suppliers"
                         icon="sap-icon://supplier"
                     >
                         <content>
@@ -52,7 +74,7 @@
                             />
                         </content>
                     </IconTabFilter>
-                    <IconTabFilter
+                    <!-- <IconTabFilter
                         text="Cities"
                         key=""
                         icon="sap-icon://arrow-down"
@@ -75,12 +97,14 @@
                                 text="{local>name}"
                             />
                         </MultiComboBox>
-                    </IconTabFilter>
+                    </IconTabFilter> -->
                     <IconTabFilter
                         text="Capture Photo"
                         icon="sap-icon://action-settings"
+                        key="photo"
                     >
                         <VBox
+                            class="sapUiSmallMargin"
                             alignContent="Center"
                             alignItems="Center"
                             width="40%"
@@ -153,11 +177,13 @@
                     text="Save"
                     press="onSave"
                     type="Accept"
+                    visible="{=${local>/selectedKey} === 'photo' ? true : false}"
                 />
                 <Button
                     text="Cancel"
                     press="onCancel"
                     type="Reject"
+                    visible="{=${local>/selectedKey} === 'photo' ? true : false}"
                 />
             </Toolbar>
         </footer>

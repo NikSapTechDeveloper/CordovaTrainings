@@ -11,7 +11,7 @@ sap.ui.define([
 
             onDeviceReady: function () {
                 this.onCreateLocalDB();
-                 this.onStartComponent();
+                this.onStartComponent();
             },
 
             onCreateLocalDB: function () {
@@ -30,7 +30,7 @@ sap.ui.define([
                     console.log('Transaction ERROR: ' + error.message);
                 }, function () {
                     console.log('login table database OK');
-                    
+
                 });
                 sqliteDB.transaction(function (tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS OFFLINE_STORE_NEW (OPERATION varchar, ENTITYSET varchar, DATA varchar, TIMESTAMP NUMERIC, SYNCTIME NUMERIC, SYNCED NUMERIC, primary key(OPERATION, ENTITYSET))');
@@ -38,9 +38,9 @@ sap.ui.define([
                     console.log('Transaction ERROR: ' + error.message);
                 }, function () {
                     console.log('transaction table was created');
-                    
+
                 });
-               
+
             },
             onStartComponent: function () {
                 sap.ui.getCore().attachInit(function () {

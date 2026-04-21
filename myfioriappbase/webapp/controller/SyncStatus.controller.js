@@ -2,8 +2,9 @@ sap.ui.define([
 	"com/nikitatrainings/controller/BaseController",
 	"com/nikitatrainings/util/formatter",
 	"sap/m/MessageBox",
-	"com/nikitatrainings/offline/reusedbapi"
-], function (Controller, Formatter, MessageBox, reusedbapi) {
+	"com/nikitatrainings/offline/reusedbapi",
+	'sap/m/MessageToast',
+], function (Controller, Formatter, MessageBox, reusedbapi, MessageToast) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.SyncStatus", {
@@ -52,37 +53,33 @@ sap.ui.define([
 			states[Connection.CELL] = 'Cell generic connection';
 			states[Connection.NONE] = 'No network connection';
 
-			// alert('Connection type: ' + states[networkState]);
 			if (states[networkState] === 'No network connection') {
 				oLocalModel.setProperty("/deviceConnected", false);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
-                 
-			
-			} else if(states[networkState] !== undefined){
+
+
+			} else if (states[networkState] !== undefined) {
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
 
-				
-			}else{
+
+			} else {
 				oLocalModel.setProperty("/deviceConnected", true);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
-
-				
-
 			}
 
 			if (this.checkOffline(this)) {
-                   var that = this;
-                   reusedbapi.read("OFFLINE_STORE_NEW", {
+				var that = this;
+				reusedbapi.read("OFFLINE_STORE_NEW", {
 					OPERATION: "POST",
-				   }).then(function(localdata){
-                     that.getOwnerComponent().getModel("local").setProperty("/OFFLINE_STORE_NEW", localdata);
-				   })
-				}
+				}).then(function (localdata) {
+					that.getOwnerComponent().getModel("local").setProperty("/OFFLINE_STORE_NEW", localdata);
+				})
+			}
 
 
 		},
-		
+
 		idleLogout: function () {
 			let time;
 			let that = this;
@@ -102,10 +99,14 @@ sap.ui.define([
 				time = setTimeout(autoLogout, 600000);
 			}
 		},
-		onSyncPress: async function(){
-			let oDataModel = this.getOwnerComponent().getModel();
-			await this.syncChangesWithServer(oDataModel);
-			await this.checkConnection();
+		onSyncPress: async function () {
+			if (navigator.connection.type !== 'none') {
+				let oDataModel = this.getOwnerComponent().getModel();
+				await this.syncChangesWithServer(oDataModel);
+				await this.checkConnection();
+			} else {
+				MessageToast.show("No network connection, Please connect to internet to sync changes with SAP");
+			}
 		}
 
 	});

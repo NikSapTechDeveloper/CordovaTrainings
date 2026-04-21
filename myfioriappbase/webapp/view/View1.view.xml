@@ -5,9 +5,8 @@
     controllerName="com.nikitatrainings.controller.View1"
     xmlns:html="http://www.w3.org/1999/xhtml"
 >
-    <Page title="Product List">
+    <Page title="Product List" class="sapUiResponsiveContentPadding">
         <content>
-            <!--<Button text="Go To Next" press="onNext"></Button>-->
             <SearchField
                 id="idSearch"
                 search="onSearch"
@@ -25,7 +24,7 @@
                 <items>
                     <ObjectListItem
                         intro="{local>CATEGORY}"
-                        title="{local>NAME}"
+                        title="{local>PRODUCT_ID} - {local>NAME}"
                         icon="sap-icon://product"
                         number="{local>PRICE}"
                         numberUnit="{local>CURRENCY_CODE}"
@@ -49,22 +48,24 @@
             <Toolbar>
                 <ToolbarSpacer />
                 <Button
+                    text="Load Sync Info"
                     icon="sap-icon://synchronize"
                     press="onSyncPress"
                     tooltip="Load Sync Screen"
                 />
                 <Button
+                    text="Add Product"
                     icon="sap-icon://add"
                     press="onAddPress"
                     tooltip="Add new product"
                 />
             </Toolbar>
         </footer>
-        <headerContent>
+        <!-- <headerContent>
             <Button
                 icon="sap-icon://action"
                 press="onNext"
             />
-        </headerContent>
+        </headerContent> -->
     </Page>
 </mvc:View>
