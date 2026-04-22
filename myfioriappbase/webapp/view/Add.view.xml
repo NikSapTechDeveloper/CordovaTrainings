@@ -36,21 +36,21 @@
                     <Label text="Product Id" />
                     <Input
                         id="prodId"
-                        value="{prod>/prodData/PRODUCT_ID}"
+                        value="{prod>/prodData/ProductId}"
                         submit="onEnter"
                         editable="false"
                     />
                     <Label text="Name" />
-                    <Input value="{prod>/prodData/NAME}" />
+                    <Input value="{prod>/prodData/Name}" />
                     <Label text="Description" />
-                    <TextArea value="{prod>/prodData/DESCRIPTION}">
+                    <TextArea value="{prod>/prodData/Description}">
                         <layoutData>
                             <l:GridData span="XL1 L2 M2 S4" />
                         </layoutData>
                     </TextArea>
                     <Label text="Supplier ID" />
                     <Input
-                        value="{prod>/prodData/SUPPLIER_ID}"
+                        value="{prod>/prodData/SupplierId}"
                         editable="false"
                     >
                         <layoutData>
@@ -58,9 +58,9 @@
                         </layoutData>
                     </Input>
                     <Label text="Price" />
-                    <Input value="{prod>/prodData/PRICE}" />
+                    <Input value="{prod>/prodData/Price}" />
                     <Input
-                        value="{prod>/prodData/CURRENCY_CODE}"
+                        value="{prod>/prodData/CurrencyCode}"
                         editable="false"
                     >
                         <layoutData>
@@ -70,7 +70,7 @@
                     <Label text="Category" />
                     <Select
                         id="category"
-                        selectedKey="{prod>/prodData/CATEGORY}"
+                        selectedKey="{prod>/prodData/Category}"
                     >
                         <items>
                             <core:Item

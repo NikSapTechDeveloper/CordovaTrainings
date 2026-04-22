@@ -5,7 +5,10 @@
     controllerName="com.nikitatrainings.controller.View1"
     xmlns:html="http://www.w3.org/1999/xhtml"
 >
-    <Page title="Product List" class="sapUiResponsiveContentPadding">
+    <Page
+        title="Product List"
+        class="sapUiResponsiveContentPadding"
+    >
         <content>
             <SearchField
                 id="idSearch"
@@ -23,15 +26,15 @@
             >
                 <items>
                     <ObjectListItem
-                        intro="{local>CATEGORY}"
-                        title="{local>PRODUCT_ID} - {local>NAME}"
+                        intro="{local>Category}"
+                        title="{local>ProductId} - {local>Name}"
                         icon="sap-icon://product"
-                        number="{local>PRICE}"
-                        numberUnit="{local>CURRENCY_CODE}"
+                        number="{local>Price}"
+                        numberUnit="{local>CurrencyCode}"
                     >
                         <firstStatus>
                             <ObjectStatus
-                                text="{local>TYPE_CODE}"
+                                text="{local>TypeCode}"
                                 state="Success"
                             />
                         </firstStatus>

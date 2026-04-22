@@ -4,7 +4,8 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"com/nikitatrainings/offline/reusedbapi",
 	'sap/m/MessageToast',
-], function (Controller, Formatter, MessageBox, reusedbapi, MessageToast) {
+	'sap/ui/core/BusyIndicator'
+], function (Controller, Formatter, MessageBox, reusedbapi, MessageToast, BusyIndicator) {
 	"use strict";
 
 	return Controller.extend("com.nikitatrainings.controller.SyncStatus", {
@@ -60,12 +61,12 @@ sap.ui.define([
 
 			} else if (states[networkState] !== undefined) {
 				oLocalModel.setProperty("/deviceConnected", true);
-				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected " + states[networkState]);
 
 
 			} else {
 				oLocalModel.setProperty("/deviceConnected", true);
-				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected " + states[networkState]);
 			}
 
 			if (this.checkOffline(this)) {
@@ -76,7 +77,6 @@ sap.ui.define([
 					that.getOwnerComponent().getModel("local").setProperty("/OFFLINE_STORE_NEW", localdata);
 				})
 			}
-
 
 		},
 
@@ -101,6 +101,7 @@ sap.ui.define([
 		},
 		onSyncPress: async function () {
 			if (navigator.connection.type !== 'none') {
+				BusyIndicator.show(0);
 				let oDataModel = this.getOwnerComponent().getModel();
 				await this.syncChangesWithServer(oDataModel);
 				await this.checkConnection();

@@ -27,7 +27,7 @@ sap.ui.define([
                 return false;
             },
             syncChangesWithServerOnline: function (oDataModel, payload) {
-                 var that = this;
+                var that = this;
                 //Step 3 = Trigger Post Request, Once POst is done, upsert our local DB
                 oDataModel.create("/ProductSet", payload, {
                     //Step 5: get the response - success, error
@@ -36,7 +36,7 @@ sap.ui.define([
                         // MessageToast.show("Congratulations! The data has been posted to SAP");
                         reusedbapi.upsert("OFFLINE_STORE_NEW", {
                             OPERATION: "POST",
-                            ENTITYSET: "ProductSet_" + data.PRODUCT_ID,
+                            ENTITYSET: "ProductSet_" + data.ProductId,
                             DATA: JSON.stringify(data),
                             // TIMESTAMP: Math.floor(Date.now() / 1000),
                             SYNCTIME: Math.floor(Date.now() / 1000),
@@ -47,13 +47,13 @@ sap.ui.define([
                         }).catch(function (error) {
                             BusyIndicator.hide();
                             MessageToast.show("Error while saving to SAP, retrying with Local DB");
-                            that.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
+                            that.fillOfflineDb("ProductSet_" + payload.ProductId, payload, "POST", 0);
                         });
                     },
                     error: function (oError) {
                         BusyIndicator.hide();
                         MessageToast.show("Error while saving to SAP, retrying with Local DB");
-                        that.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
+                        that.fillOfflineDb("ProductSet_" + payload.ProductId, payload, "POST", 0);
                     }
                 });
             },
@@ -80,7 +80,7 @@ sap.ui.define([
                                 // MessageToast.show("Congratulations! The data has been posted to SAP");
                                 reusedbapi.update("OFFLINE_STORE_NEW", {
                                     OPERATION: "POST",
-                                    ENTITYSET: "ProductSet_" + data.PRODUCT_ID,
+                                    ENTITYSET: "ProductSet_" + data.ProductId,
                                     DATA: JSON.stringify(data),
                                     // TIMESTAMP: Math.floor(Date.now() / 1000),
                                     SYNCTIME: Math.floor(Date.now() / 1000),
@@ -124,6 +124,75 @@ sap.ui.define([
                     default:
                         break;
                 }
-            }
+            },
+            isMetadataLoaded: function () {//******** Function to check if metadata of the service is loaded *********//
+                var oDefaultModel = this.getOwnerComponent().getModel();
+                var isLoaded = oDefaultModel.isMetadataLoadingFailed();
+                return !isLoaded;
+            },
+            isAppOnline: async function () {//******** Function to check the connectivity state of the application *********//
+
+                var networkState = navigator.connection.type;
+                var states = {};
+                let oLocalModel = this.getOwnerComponent().getModel("local")
+                states[Connection.UNKNOWN] = 'Unknown connection';
+                states[Connection.ETHERNET] = 'Ethernet connection';
+                states[Connection.WIFI] = 'WiFi connection';
+                states[Connection.CELL_2G] = 'Cell 2G connection';
+                states[Connection.CELL_3G] = 'Cell 3G connection';
+                states[Connection.CELL_4G] = 'Cell 4G connection';
+                states[Connection.CELL] = 'Cell generic connection';
+                states[Connection.NONE] = 'No network connection';
+                var that = this;
+                if (networkState === "none") {
+                    this.appWasOffline = true;
+                    oLocalModel.setProperty("/deviceConnected", false);
+                    oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
+                    setTimeout(function () {
+                        that.isAppOnline();
+                    }, 1000);
+                    oLocalModel.updateBindings(true);
+                    return false;
+                } else {
+                    if (this.isMetadataLoaded()) {
+
+                        oLocalModel.setProperty("/deviceConnected", true);
+                        oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected " + states[networkState]);
+                        setTimeout(function () {
+                            that.isAppOnline();
+                        }, 1000);
+                        oLocalModel.updateBindings(true);
+                        return true;
+
+                    } else {
+                        // If the metadata of the servic is not loaded then reload the metadata of the service
+                        oLocalModel.setProperty("/deviceConnected", false);
+                        oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
+                        var sRes = await this.reloadApplicationODataModel();
+                        setTimeout(function () {
+                            that.isAppOnline();
+                        }, 1000);
+                        oLocalModel.updateBindings(true);
+                        return false;
+                    }
+                }
+            },
+            reloadApplicationODataModel: function () { //**********Function to reload the application metadata*********//
+                let that = this;
+                return new Promise(async function (resolve, reject) {
+
+                    let oDefaultModel = that.getOwnerComponent().getModel();
+
+                    oDefaultModel.refreshMetadata().then(
+                        function () {
+                            resolve(true);
+                        }
+                    ).catch(
+                        function () {
+                            resolve(false);
+                        }
+                    );
+                })
+            },
         })
     })

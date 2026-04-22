@@ -40,19 +40,19 @@ sap.ui.define([
             let sProductId = this.generateId();
             this.oLocalModel.setData({
                 "prodData": {
-                    "CATEGORY": "Notebooks",
-                    "CURRENCY_CODE": "EUR",
-                    "TYPE_CODE": "PR",
-                    "DESCRIPTION": "",
-                    "DIM_UNIT": "CM",
-                    "MEASURE_UNIT": "EA",
-                    "NAME": "",
-                    "PRICE": "0.00",
-                    "PRODUCT_ID": sProductId,
-                    "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
-                    "SUPPLIER_ID": "0100000051",
-                    "SUPPLIER_NAME": "TECUM",
-                    "TAX_TARIF_CODE": "1 "
+                    "Category": "Notebooks",
+                    "CurrencyCode": "EUR",
+                    "TypeCode": "PR",
+                    "Description": "",
+                    "DimUnit": "CM",
+                    "MeasureUnit": "EA",
+                    "Name": "",
+                    "Price": "0.00",
+                    "ProductId": sProductId,
+                    "ProductPicUrl": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
+                    "SupplierId": "0100000051",
+                    "SupplierName": "TECUM",
+                    "TaxTarifCode": "1 "
                 }
             });
             this.getView().setModel(this.oLocalModel, "prod");
@@ -91,7 +91,7 @@ sap.ui.define([
         },
 
         onDelete: function () {
-            //    this.productId = this.oLocalModel.getProperty("/prodData/PRODUCT_ID");
+            //    this.productId = this.oLocalModel.getProperty("/prodData/ProductId");
             var oDataModel = this.getView().getModel();
             oDataModel.remove("/ProductSet('" + this.productId + "')", {
                 //Step 5: get the response - success, error
@@ -109,7 +109,7 @@ sap.ui.define([
             //Step 1: Prepare payload
             var payload = this.oLocalModel.getProperty("/prodData");
             //Step 2: Pre-checks
-            if (payload.PRODUCT_ID === "") {
+            if (payload.ProductId === "") {
                 BusyIndicator.hide();
                 MessageBox.error("Please enter a valid new product Id");
                 return;
@@ -122,7 +122,7 @@ sap.ui.define([
                 if (navigator.connection.type !== 'none') {
                     this.syncChangesWithServerOnline(oDataModel, payload);
                 } else {
-                    this.fillOfflineDb("ProductSet_" + payload.PRODUCT_ID, payload, "POST", 0);
+                    this.fillOfflineDb("ProductSet_" + payload.ProductId, payload, "POST", 0);
                 }
 
             } else {
@@ -143,7 +143,7 @@ sap.ui.define([
         onClear: function () {
             this.setMode("Create");
             this.oLocalModel.setProperty("/prodData", {
-                "PRODUCT_ID": "",
+                "ProductId": "",
                 "CATEGORY": "Notebooks",
                 "CURRENCY_CODE": "EUR",
                 "TYPE_CODE": "PR",
@@ -152,7 +152,7 @@ sap.ui.define([
                 "MEASURE_UNIT": "EA",
                 "NAME": "New product",
                 "PRICE": "0.00",
-                "PRODUCT_ID": "HT-3232",
+                "ProductId": "HT-3232",
                 "PRODUCT_PIC_URL": "/sap/public/bc/NWDEMO_MODEL/IMAGES/HT-4002.jpg",
                 "SUPPLIER_ID": "0100000051",
                 "SUPPLIER_NAME": "TECUM",

@@ -15,7 +15,6 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			this.oRouter = this.getOwnerComponent().getRouter();
-
 		},
 
 		onLogin: function () {
@@ -26,14 +25,14 @@ sap.ui.define([
 				MessageBox.error("Credentials cannot be blank.");
 				return;
 			}
-			let oDataModel = new ODataModel("https://122.162.240.164:44310/sap/opu/odata/sap/ZNIKITA_MOCK_PROJECT_SRV/", {
+			let oDataModel = new ODataModel("https://122.162.240.164:44310/sap/opu/odata/sap/ZHYBRID_CORDOVA_PROJECT_SRV/", {
 				user: sUser,
 				password: sPassword,
 			});
+			this.getOwnerComponent().setModel(oDataModel);
 
 			if (navigator.connection.type !== 'none') {
 				oDataModel.attachMetadataLoaded(null, () => {
-					that.getOwnerComponent().setModel(oDataModel);
 					that.oRouter.navTo("master");
 					if (that.checkOffline(that)) {
 						dbapi.read("USER_LOGIN", {
@@ -72,6 +71,7 @@ sap.ui.define([
 				})
 			}
 			oDataModel.refreshMetadata();
+			this.isAppOnline();
 		},
 
 	});

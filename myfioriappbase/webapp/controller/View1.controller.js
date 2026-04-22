@@ -48,8 +48,6 @@ sap.ui.define([
 			states[Connection.CELL_4G] = 'Cell 4G connection';
 			states[Connection.CELL] = 'Cell generic connection';
 			states[Connection.NONE] = 'No network connection';
-
-			// alert('Connection type: ' + states[networkState]);
 			if (states[networkState] === 'No network connection') {
 				oLocalModel.setProperty("/deviceConnected", false);
 				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Oops! Offline");
@@ -57,7 +55,6 @@ sap.ui.define([
 				if (this.checkOffline(this)) {
 					var that = this;
 					reusedbapi.read("OFFLINE_STORE_NEW", {
-						OPERATION: "GET",
 						ENTITYSET: "ProductSet"
 					}).then(function (localdata) {
 						that.getOwnerComponent().getModel("local").setProperty("/ProductSet", JSON.parse(localdata[0].DATA));
@@ -65,7 +62,7 @@ sap.ui.define([
 				}
 			} else if (states[networkState] !== undefined) {
 				oLocalModel.setProperty("/deviceConnected", true);
-				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected " + states[networkState]);
 
 				var that = this;
 				this.getOwnerComponent().getModel().read("/ProductSet", {
@@ -78,7 +75,7 @@ sap.ui.define([
 				})
 			} else {
 				oLocalModel.setProperty("/deviceConnected", true);
-				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected" + states[networkState]);
+				oLocalModel.setProperty("/onlineOrOfflineStatusText", "Connected " + states[networkState]);
 
 				var that = this;
 				this.getOwnerComponent().getModel().read("/ProductSet", {
